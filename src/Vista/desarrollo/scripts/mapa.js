@@ -1,0 +1,6 @@
+
+
+$(document).ready(()=> {
+  //iniciarMapa();iniciarBD();
+
+});

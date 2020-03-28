@@ -1,0 +1,84 @@
+.imagenGradiente
+{
+  width: 100%;
+}
+canvas
+{
+  width: 100% !important
+}
+
+.grilla
+{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 100px;
+}
+.cuerpo
+{
+  margin: 0px 100px;
+  padding: 100px;
+  width: 80%;
+  background: #fff9;
+}
+
+#fondo
+{
+  position: absolute;
+  z-index: -2;
+  top: 0px;
+  left: 0px;
+}
+.gradiente
+{
+  min-width: 100px;
+  min-height: 1000px;
+  /* background: linear-gradient(90deg, rgba(0,0,0, 0.2), rgba(0,0,0, 0.5),rgba(0,0,0, 0.5), rgba(0,0,0, 0.2)),url('/img/QuienesSomos.jpeg'); */
+  width: 100%;
+  height: auto;
+  background-size: 100% auto;
+
+}
+.img
+{
+  display: block;
+  background: linear-gradient(90deg, rgba(0,0,0, 0.2), rgba(0,0,0, 0.5),rgba(0,0,0, 0.5), rgba(0,0,0, 0.2));
+  z-index: 2;
+  width: 100%;
+  min-height: 100px;
+  position:relative ;
+  top: 0px;
+  left: 0px;
+}
+.responsivo
+{
+  transform: translate(0,-100px);
+
+  display:block;
+  width:100vw;
+}
+body,html{
+  font-family: 'Montserrat', sans-serif;
+  margin: 0px;
+  padding: 0px;
+  min-height: 100vh;
+  background: #888;
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+.flex
+{
+  width:100%; display:flex;justify-content: center;text-align: center;
+}
+.flexV
+{
+  width:100%; display:flex;justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+}
+.none
+{
+  display: none;
+}

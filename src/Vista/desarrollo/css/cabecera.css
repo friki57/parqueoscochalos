@@ -1,0 +1,22 @@
+.barraNavegacion
+{
+  background: #0b313f;
+  text-align: center;
+  height: 50px;
+}
+.enlaces{
+  width: 720px;
+  line-height: 100%;
+}
+.enlaceCabecera{
+  color: #fff;
+  margin: auto;
+}
+.enlaceCabecera:first-of-type{
+  margin-left: 0px;
+  margin-right: auto;
+}
+.enlaceCabecera:last-of-type{
+  margin-left: auto;
+  margin-right: 0px;
+}
