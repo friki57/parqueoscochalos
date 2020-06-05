@@ -1,0 +1,50 @@
+.imagenGradiente
+{
+  width: 100%;
+}
+body,html
+{
+  height: 100vh;
+  width: 100vw;
+  
+}
+#map
+{
+    width: 100%;
+    height: 100%;
+    background: #4a3112
+}
+.imagenGradiente::after
+{
+  display: block;
+  position: relative;
+  top: 0px;
+  left: 0px;
+  content: '';
+  min-height: 100pt;
+  min-width: 100pt;
+  background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0, #fff 100%);
+  z-index: 20;
+}
+body,html{
+  margin: 0px;
+  padding: 0px;
+  min-height: 100vh;
+
+}
+
+.flex
+{
+  width:100%; display:flex;justify-content: center;text-align: center;
+}
+.flexV
+{
+  width:100%; display:flex;justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+}
+.none
+{
+  display: none;
+}
