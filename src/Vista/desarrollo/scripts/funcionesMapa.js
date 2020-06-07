@@ -55,13 +55,13 @@ function iniciarMapa()
 }
 var nombressssss= 0;
 var capnombre = false;
-function cargarGeoJson(GeoJson,id,disp,pago,texto)
+function cargarGeoJson(GeoJson,id,disp,pago,texto,espMax,esp)
 {
   //ubicarcentro();
   var color= "#227733";
 /*  console.log("disp", disp);
   console.log("pago", pago);*/
-  if(disp==true)
+  if(espMax>esp)
   {
     if(!pago==true)
     {
@@ -277,8 +277,8 @@ function recibirCalles(data)
      {
        calles[k].placas = calles[k].placas.map((a)=>
        {
-         return "<tr><td><div class = 'p-1 font-semibold' style = 'background-color:#0B313F; color: #E79A32' >"+a+"</div><td>"
-         + "<td><div class = 'p-2 bg-green-300' >"+"10:00"+"</div></td>"
+         return "<tr><td><div class = 'p-1 font-semibold' style = 'background-color:#0B313F; color: #E79A32' >"+a.placa+"</div><td>"
+         + "<td><div class = 'p-2 bg-green-300' >"+(a.tiempo).toString()+"</div></td>"
        });
        placas.push("<table>" + calles[k].placas.join("") + "</table>");
      }
@@ -297,7 +297,7 @@ function recibirCalles(data)
       textoPlaca = placas[i];
     var texto= "".concat(nomb[i]," entre ",c1[i]," y ", c2[i], ' \nNúmero de espacios disponibles: ', espaciosMaximo[i]-espacios[i],
     "<br><strong>Las placas de los vehículos estacionados aquí son: </strong>", textoPlaca);
-     cargarGeoJson(geojons[i],k,disp[i],pago[i],texto);
+     cargarGeoJson(geojons[i],k,disp[i],pago[i],texto,espaciosMaximo[i],espacios[i]);
    }
    for(var i=0; i<geojons.length; i++)
    {

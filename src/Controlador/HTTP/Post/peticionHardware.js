@@ -11,28 +11,33 @@ module.exports = (rutas, bd, ver, datos, http, passport)=>
       calle = calle[0];
       delete calle.key;
       calle.placas = (calle.placas==undefined || calle.placas==0)?[]:calle.placas;
-      calle.espacios = calle.espacios - 1;
-      var placas = calle.placas;
-      placas = Object.values(placas);
-      placas.push(matricula);
-
-      if(!calle.placas.includes(matricula))
+      // 0 = todo bien
+      // 1 = ya esta parqueado
+      // 2 = esta lleno
+      var validacion = 0;
+      if(!(calle.placas.filter(a=>a.placa == matricula).length>0))
       {
-
+        validacion = 1;
       }
       if(calle.espacios >= calle.espaciosMaximo)
       {
-
+        validacion = 2;
       }
-      calle.placas = Object.assign({}, placas);
-      bd.cruds.crudCalle.modificar(idCalle,{"placas":calle.placas,"espacios":calle.espacios},()=>
+      if(validacion == 0)
       {
-        console.log("llega:",req.params);
-      });
+        calle.espacios = calle.espacios - 1;
+        var placas = calle.placas;
+        placas = Object.values(placas);
+        placas.push({placa:matricula, tiempo: 10});
+        calle.placas = Object.assign({}, placas);
+        bd.cruds.crudCalle.modificar(idCalle,{"placas":calle.placas,"espacios":calle.espacios},()=>
+        {
+          console.log("llega:",req.params);
+        });
+      }
       res.json(
         {
-          hola: "hola",
-          nombre: "erick"
+          validacion
         }
       );
     });
