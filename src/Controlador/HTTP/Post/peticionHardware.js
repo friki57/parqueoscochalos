@@ -15,7 +15,7 @@ module.exports = (rutas, bd, ver, datos, http, passport)=>
       // 1 = ya esta parqueado
       // 2 = esta lleno
       var validacion = 0;
-      if(!(calle.placas.filter(a=>a.placa == matricula).length>0))
+      if((calle.placas.filter(a=>a.placa == matricula).length>0))
       {
         validacion = 1;
       }
