@@ -26,10 +26,12 @@ module.exports = (rutas, bd, ver, datos, http, passport)=>
       }
       if(validacion == 0)
       {
+        const crypto = require('crypto');
+        var hash = crypto.randomBytes(7).toString('hex');
         calle.espacios = calle.espacios - 1;
         var placas = calle.placas;
         placas = Object.values(placas);
-        placas.push({placa:matricula, tiempo: tiempoDefecto, hora: new Date()});
+        placas.push({placa:matricula, tiempo: tiempoDefecto, hora: new Date(), hash});
         calle.placas = Object.assign({}, placas);
         bd.cruds.crudCalle.modificar(idCalle,{"placas":calle.placas,"espacios":calle.espacios},()=>
         {console.log("llega:",req.params);});
@@ -40,7 +42,8 @@ module.exports = (rutas, bd, ver, datos, http, passport)=>
             costo:(tarifa*1),
             fecha:(new Date()).toString(),
             tiempo:tiempoDefecto,
-            usuario:usuario[0].key
+            usuario:usuario[0].key,
+            hash
           }
           console.log("Ingresando parqueo: ", parqueo)
           bd.cruds.crudParqueo.ingresar(parqueo,()=>{})
