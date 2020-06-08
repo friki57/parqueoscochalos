@@ -38,10 +38,11 @@ module.exports = (rutas, bd, ver, datos, http, passport)=>
           {
             calle:idCalle,
             costo:(tarifa*1),
-            fecha:new Date(),
+            fecha:(new Date()).toString(),
             tiempo:tiempoDefecto,
             usuario:usuario[0].key
           }
+          console.log("Ingresando parqueo: ", parqueo)
           bd.cruds.crudParqueo.ingresar(parqueo,()=>{})
         });
       }
