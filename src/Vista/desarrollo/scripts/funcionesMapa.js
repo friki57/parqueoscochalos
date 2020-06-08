@@ -25,7 +25,7 @@ function iniciarMapa()
           map = new mapboxgl.Map({
           container: 'mapa',
           style: 'mapbox://styles/mapbox/streets-v11',
-          zoom: 14,
+          zoom: 15,
           center: [posicion.lon,posicion.lat],
           //center: [-122.49378204345702, 37.83368330777276],
           //minZoom: 13,
@@ -277,8 +277,18 @@ function recibirCalles(data)
      {
        calles[k].placas = calles[k].placas.map((a)=>
        {
+         a.tiempoRestante = 13 * 60;
+         var colt = "bg-green-400";
+         if(a.tiempoRestante <= 20 * 60)
+         {
+           colt = "bg-yellow-400";
+         }
+         if(a.tiempoRestante <= 10 * 60)
+         {
+           colt = "bg-red-500"
+         }
          return "<tr><td><div class = 'p-1 font-semibold' style = 'background-color:#0B313F; color: #E79A32' >"+a.placa+"</div><td>"
-         + "<td><div class = 'p-2 bg-green-300' >"+(a.tiempo).toString()+"</div></td>"
+         + "<td><div class = 'p-2 " + colt +"' > queda: "+((a.tiempoRestante>60)?(a.tiempoRestante/60).toString():"menos de 1")+" minuto(s)</div></td>"
        });
        placas.push("<table>" + calles[k].placas.join("") + "</table>");
      }
