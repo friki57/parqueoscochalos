@@ -1,4 +1,5 @@
-
+const tarifa = "1";
+const tiempoDefecto = "10"
 module.exports = (rutas, bd, ver, datos, http, passport)=>
 {
   rutas.post(http.post.rutaHardware.Sensor + ":calle/:matricula/",(req,res)=>
@@ -28,11 +29,20 @@ module.exports = (rutas, bd, ver, datos, http, passport)=>
         calle.espacios = calle.espacios - 1;
         var placas = calle.placas;
         placas = Object.values(placas);
-        placas.push({placa:matricula, tiempo: 10, hora: new Date()});
+        placas.push({placa:matricula, tiempo: tiempoDefecto, hora: new Date()});
         calle.placas = Object.assign({}, placas);
         bd.cruds.crudCalle.modificar(idCalle,{"placas":calle.placas,"espacios":calle.espacios},()=>
-        {
-          console.log("llega:",req.params);
+        {console.log("llega:",req.params);});
+        bd.cruds.crudUsuario.buscar({placa: {valor: matricula, tipo:"igual"}},(usuario)=>{
+          const parqueo  =
+          {
+            calle:idCalle,
+            costo:(tarifa*1),
+            fecha:new Date(),
+            tiempo:tiempoDefecto,
+            usuario:usuario[0].key
+          }
+          bd.cruds.crudParqueo.ingresar(parqueo,()=>{})
         });
       }
       res.json(

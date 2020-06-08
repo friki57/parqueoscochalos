@@ -35,6 +35,34 @@ var ret = (passport,io)=> {
   {
     io.sockets.emit('calles', call);
   });
+  setInterval(()=>
+  {
+    bd.cruds.crudCalle.leer((calles)=>
+    {
+      calles.map((c)=>{
+        for (var p in c.placas) {
+          if (c.placas.hasOwnProperty(p)) {
+            var pl = c.placas[p];
+            var final = (new Date(pl.hora)).getTime()+(pl.tiempo * 60000);
+            var ahora = (new Date()).getTime();
+            if(ahora>final)
+            {
+              var plac = Object.values(c.placas);
+              console.log(plac, pl)
+              plac = plac.filter(a=>a.placa!=pl.placa)
+              //if(plac.length==0) plac = undefined;
+              bd.cruds.crudCalle.modificar(c.key, {"placas": plac}, ()=>{});
+            }
+            else
+            {
+//              console.log(pl)
+            }
+          }
+        }
+      });
+      io.sockets.emit('callesPorsegundo', calles);
+    });
+  },3000);
 
   const confirmacion = require('./../../Modelo/ConfirmacionEmail/Funciones.js');
   //confirmacion('aranibarerick@gmail.com',bd,'-LvuQdVsxHMMVZC1L0L0');

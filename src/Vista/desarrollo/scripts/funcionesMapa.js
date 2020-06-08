@@ -2,8 +2,11 @@ var base;
 $(document).ready(()=> {
   //iniciarMapa();iniciarBD();
   iniciarMapa();
-  iniciarBD();
-  document.getElementById('ubica').addEventListener('click',ubicarcentro);
+  setTimeout(()=>
+  {
+    iniciarBD();
+    document.getElementById('ubica').addEventListener('click',ubicarcentro);
+  },300);
 });
 
 function coordenadas(la,lo)
@@ -83,25 +86,6 @@ function cargarGeoJson(GeoJson,id,disp,pago,texto,espMax,esp)
     }
 
   }
-
-  /*console.log(id,[GeoJson[0].lon,GeoJson[0].lat],
-  [GeoJson[1].lon,GeoJson[1].lat],color)*/
-/*
-if(GeoJson!=null)
-{
-//  nombressssss++;
-//console.log(getLayer(id));
-  if(map.getLayer(id)!=undefined)
-  {
-    console.log("entro");
-    //eliminarCapa(id);
-    map.removeLayer(id.toString());
-    console.log("eliminando la capa: ", id);
-    console.log(id);
-  }
-//  console.log(nombressssss);
-
-}*/
 var id2="";
 if(capnombre==true)
 {
@@ -215,41 +199,24 @@ function alternarCapnombre()
   }
 }
 
-
-
+var socket = io();
 //Codigo de base de datos y socket
 function iniciarBD()
 {
-  conectar();
-  cargarCalles();
+    //console.log(window.datos.calles)
+    recibirCalles(window.datos.calles);
+    socket.on('callesPorsegundo', function(data) {
+      //console.log("Llegaron calles")
+      recibirCalles(data);
+    });
 }
-function conectar()
-{
-  var firebaseConfig = {
-     apiKey: "AIzaSyBbxdibL2gznSW9rxlkA86bTjzdRs4-XM0",
-     authDomain: "prueba-57.firebaseapp.com",
-     databaseURL: "https://prueba-57.firebaseio.com",
-     projectId: "prueba-57",
-     storageBucket: "prueba-57.appspot.com",
-     messagingSenderId: "10299101309",
-     appId: "1:10299101309:web:a92798ab31380ef3"
-   };
-   firebase.initializeApp(firebaseConfig);
-   base = firebase.database();
-}
-function cargarCalles()
-{
-  var ref = base.ref('calle');
-  ref.on('value', (data)=> {recibirCalles(data);}
-    , (err)=> {console.log(err);console.log("error")});
 
-}
 var keys;
 var disp2;
-function recibirCalles(data)
+function recibirCalles(calles)
 {
 //   console.log("valores", data.val());
-   var calles = data.val();
+//   var calles = data.val();
    keys = Object.keys(calles);
 
    var geojons = [];
@@ -277,7 +244,8 @@ function recibirCalles(data)
      {
        calles[k].placas = calles[k].placas.map((a)=>
        {
-         a.tiempoRestante = 13 * 60;
+         a.tiempoRestante = Math.floor((new Date(a.hora) - Date.now() + a.tiempo * 60 * 1000) / (1000));
+         console.log(a.tiempoRestante)
          var colt = "bg-green-400";
          if(a.tiempoRestante <= 20 * 60)
          {
@@ -288,7 +256,7 @@ function recibirCalles(data)
            colt = "bg-red-500"
          }
          return "<tr><td><div class = 'p-1 font-semibold' style = 'background-color:#0B313F; color: #E79A32' >"+a.placa+"</div><td>"
-         + "<td><div class = 'p-2 " + colt +"' > queda: "+((a.tiempoRestante>60)?(a.tiempoRestante/60).toString():"menos de 1")+" minuto(s)</div></td>"
+         + "<td><div class = 'p-2 " + colt +"' > queda: "+((a.tiempoRestante>60)?Math.floor((a.tiempoRestante/60).toString()):"menos de 1")+" minuto(s)</div></td>"
        });
        placas.push("<table>" + calles[k].placas.join("") + "</table>");
      }
@@ -305,8 +273,8 @@ function recibirCalles(data)
     var textoPlaca = "No se encuentra ningún vehículo estaciondo en esta calle durante este momento";
     if(placas[i]!=undefined)
       textoPlaca = placas[i];
-    var texto= "".concat(nomb[i]," entre ",c1[i]," y ", c2[i], ' \nNúmero de espacios disponibles: ', espaciosMaximo[i]-espacios[i],
-    "<br><strong>Las placas de los vehículos estacionados aquí son: </strong>", textoPlaca);
+    var texto= "".concat("<div id='popup",k,"'>",nomb[i]," entre ",c1[i]," y ", c2[i], ' \nNúmero de espacios disponibles: ', espaciosMaximo[i]-espacios[i],
+    "<br><strong>Las placas de los vehículos estacionados aquí son: </strong>", textoPlaca, "</div>");
      cargarGeoJson(geojons[i],k,disp[i],pago[i],texto,espaciosMaximo[i],espacios[i]);
    }
    for(var i=0; i<geojons.length; i++)
@@ -320,7 +288,6 @@ function recibirCalles(data)
       //comprobarCapa(geojons[i],k);
    }
    alternarCapnombre();
-
 disp2=disp;
 /*console.log("dis2",disp2)
 console.log("dis",disp)*/
