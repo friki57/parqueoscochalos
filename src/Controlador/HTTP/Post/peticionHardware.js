@@ -34,7 +34,7 @@ module.exports = (rutas, bd, ver, datos, http, passport)=>
         bd.cruds.crudCalle.modificar(idCalle,{"placas":calle.placas,"espacios":calle.espacios},()=>
         {console.log("llega:",req.params);});
         bd.cruds.crudUsuario.buscar({placa: {valor: matricula, tipo:"igual"}},(usuario)=>{
-          const parqueo  =
+          var parqueo  =
           {
             calle:idCalle,
             costo:(tarifa*1),

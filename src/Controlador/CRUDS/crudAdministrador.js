@@ -8,7 +8,7 @@ function crud() {
   }
   this.ingresar = (datos, callback)=>
   {
-    this.conexion.ref(tabla).push((err)=>
+    this.conexion.ref(tabla).push(datos,(err)=>
     {
       if(!err)
       {
