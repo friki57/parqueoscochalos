@@ -10,6 +10,7 @@ var ret = (passport,io)=> {
   const bd = require('./../../Modelo/BD/bd.js');
   bd.iniciar();
 
+  const tarifa = 1;
   bd.cruds.crudCalle.leer((calles)=>
   {
     // var f1 = new Date(Date.now() + 5000);
@@ -51,18 +52,20 @@ var ret = (passport,io)=> {
               console.log(plac, pl)
               plac = plac.filter(a=>a.placa!=pl.placa)
               //if(plac.length==0) plac = undefined;
-              bd.cruds.crudCalle.modificar(c.key, {"placas": plac}, ()=>{});
+              bd.cruds.crudCalle.modificar(c.key, {"placas": plac, "espacios": (c.espacios+1)}, ()=>{
+
+              });
             }
             else
             {
-//              console.log(pl)
+            //  console.log(pl)
             }
           }
         }
       });
       io.sockets.emit('callesPorsegundo', calles);
     });
-  },3000);
+  },5000);
 
   const confirmacion = require('./../../Modelo/ConfirmacionEmail/Funciones.js');
   //confirmacion('aranibarerick@gmail.com',bd,'-LvuQdVsxHMMVZC1L0L0');

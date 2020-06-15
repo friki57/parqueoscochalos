@@ -56,4 +56,9 @@ module.exports = (rutas, bd, ver, datos, http, passport)=>
     confirmacion(req.app.locals.usuario.correo,bd,req.app.locals.usuario.key);
     res.redirect('back');
   });
+  rutas.post(http.post.rutaCuenta.adicionarTiempo+':tiempo',(req,res)=>
+  {
+    const tiempo = req.params.tiempo;
+    console.log("------tiempo-------", tiempo)
+  });
 }

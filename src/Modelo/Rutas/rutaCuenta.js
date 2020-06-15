@@ -15,7 +15,8 @@ module.exports = {
     inicioSesion: '/IniciarSesion',
     crearCuenta: '/CrearCuenta',
     verificarCuenta:'/Cuenta/Verificar',
-    reenviarConfirmacion: '/ReenviarConfirmacion'
+    reenviarConfirmacion: '/ReenviarConfirmacion',
+    adicionarTiempo: '/AdicionarTiempo/'
   },
   vista:
   {

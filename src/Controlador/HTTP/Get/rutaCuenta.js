@@ -176,8 +176,8 @@ module.exports = (rutas, bd, ver, datos, http)=>
         });
       }
       else {
-        datos.usuario.parqueoActual = 0;
-        res.render('inicio',{datos,pagina:http.vista.rutaCuenta.adicionarTiempo})
+
+        res.redirect(http.get.rutaCuenta.miCuenta)
       }
     });
   });

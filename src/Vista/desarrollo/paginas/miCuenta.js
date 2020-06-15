@@ -21,7 +21,7 @@ class MiCuenta extends Component
             Desde las {window.datos.usuario.parqueoActual.fecha.toString()}
             Con tiempo limite hasta las {window.datos.usuario.parqueoActual.fechaFinal.toString()}
           </p>
-          <a href = {window.datos.http.get.rutaCuenta.adicionarTiempo} className = "bg-green-600 text-white p-2 hover:no-underline hover:bg-green-500 hover:font-bold"> Modificar tiempo. </a>
+          <a href = {window.datos.http.get.rutaCuenta.adicionarTiempo} className = "bg-green-600 text-white p-2 hover:no-underline hover:bg-green-700"> Aumentar Tiempo </a>
         </div>
       )
     }

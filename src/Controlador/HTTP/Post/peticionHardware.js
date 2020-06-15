@@ -47,6 +47,8 @@ module.exports = (rutas, bd, ver, datos, http, passport)=>
           }
           console.log("Ingresando parqueo: ", parqueo)
           bd.cruds.crudParqueo.ingresar(parqueo,()=>{})
+          bd.cruds.crudUsuario.modificar(usuario[0].key,{"saldo":(usuario[0].saldo-parqueo.costo)},()=>{})
+
         });
       }
       res.json(
