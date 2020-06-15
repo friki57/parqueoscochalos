@@ -1,4 +1,4 @@
-
+const fechas = require('./../Utiles/fechas');
 module.exports = (rutas, bd, ver, datos, http)=>
 {
   rutas.get(http.get.rutaCuenta.inicioSesion,ver[http.ver.rutaCuenta.inicioSesion],(req,res)=>
@@ -36,12 +36,39 @@ module.exports = (rutas, bd, ver, datos, http)=>
   });
   rutas.get(http.get.rutaCuenta.miCuenta,ver[http.ver.rutaCuenta.miCuenta],(req,res)=>
   {
-    datos.usuario = req.app.locals.usuario;
+    // console.log('------------------------------------------',req.user,req.app.locals.usuario)
+    datos.usuario = req.user;
     delete datos.usuario.contra;
     delete datos.usuario.hash;
-    res.render('inicio',{datos,pagina:http.vista.rutaCuenta.miCuenta})
-    //console.log(req.app.locals.usuario)
-    //res.send('ya está iniciada la sesión'+req.app.locals.usuario.nombre);
+    bd.cruds.crudParqueo.buscar({usuario:{valor:datos.usuario.key,tipo:"igual"}},(parqueo)=>{
+      parqueo = parqueo.filter(a=>
+        {
+          const final = (new Date(a.fecha)).getTime() + 1000 * 60 * a.tiempo;
+          const ahora = (Date.now());
+          if(ahora<final)
+          {
+            a.fecha = fechas((new Date(a.fecha)))
+            a.fechaFinal = fechas(new Date(final))
+            return a
+          }
+        }
+      )
+      if(parqueo.length>0)
+      {
+        parqueo = parqueo[0];
+        bd.cruds.crudCalle.buscar({key: {valor:parqueo.calle, tipo:"igual"}},(calles)=>{
+          calles = calles[0]
+          parqueo.calle = [" ",calles.calle, " entre ", calles.c1, " y ", calles.c2].join("")
+          console.log(parqueo)
+          datos.usuario.parqueoActual = parqueo;
+          res.render('inicio',{datos,pagina:http.vista.rutaCuenta.miCuenta})
+        });
+      }
+      else {
+        datos.usuario.parqueoActual = 0;
+        res.render('inicio',{datos,pagina:http.vista.rutaCuenta.miCuenta})
+      }
+    });
   });
   rutas.get(http.get.rutaCuenta.verificarCuenta,ver[http.ver.rutaCuenta.verificarCuenta],(req,res)=>
   {
@@ -117,6 +144,42 @@ module.exports = (rutas, bd, ver, datos, http)=>
       ]
     }
     res.render('inicio',{datos,pagina:http.vista.rutaCuenta.crearCuenta})
+  });
+  rutas.get(http.get.rutaCuenta.adicionarTiempo,ver[http.ver.rutaCuenta.adicionarTiempo],(req,res)=>
+  {
+    // console.log('------------------------------------------',req.user,req.app.locals.usuario)
+    datos.usuario = req.user;
+    delete datos.usuario.contra;
+    delete datos.usuario.hash;
+    bd.cruds.crudParqueo.buscar({usuario:{valor:datos.usuario.key,tipo:"igual"}},(parqueo)=>{
+      parqueo = parqueo.filter(a=>
+        {
+          const final = (new Date(a.fecha)).getTime() + 1000 * 60 * a.tiempo;
+          const ahora = (Date.now());
+          if(ahora<final)
+          {
+            a.fecha = fechas((new Date(a.fecha)))
+            a.fechaFinal = fechas(new Date(final))
+            return a
+          }
+        }
+      )
+      if(parqueo.length>0)
+      {
+        parqueo = parqueo[0];
+        bd.cruds.crudCalle.buscar({key: {valor:parqueo.calle, tipo:"igual"}},(calles)=>{
+          calles = calles[0]
+          parqueo.calle = [" ",calles.calle, " entre ", calles.c1, " y ", calles.c2].join("")
+          console.log(parqueo)
+          datos.usuario.parqueoActual = parqueo;
+          res.render('inicio',{datos,pagina:http.vista.rutaCuenta.adicionarTiempo})
+        });
+      }
+      else {
+        datos.usuario.parqueoActual = 0;
+        res.render('inicio',{datos,pagina:http.vista.rutaCuenta.adicionarTiempo})
+      }
+    });
   });
   rutas.get(http.get.rutaCuenta.cerrarSesion,ver[http.ver.rutaCuenta.miCuenta],(req,res)=>
   {

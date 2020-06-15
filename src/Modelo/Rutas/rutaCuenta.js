@@ -7,7 +7,8 @@ module.exports = {
     modificarCuenta: '/Cuenta/Modificar',
     administrarPersonal: '/Administracion/Personal',
     cerrarSesion: '/CerrarSesion',
-    verificarCuenta: '/Cuenta/Verificar'
+    verificarCuenta: '/Cuenta/Verificar',
+    adicionarTiempo: "/Cuenta/AdicionarTiempo"
   },
   post:
   {
@@ -23,7 +24,8 @@ module.exports = {
     miCuenta: 'cuentaVer',
     modificarCuenta: 'cuentaModificar',
     administrarPersonal: 'administrarPersonal',
-    verificarCuenta: 'verificarCuenta'
+    verificarCuenta: 'verificarCuenta',
+    adicionarTiempo: "adicionarTiempo"
   },
   ver:
   {
@@ -33,6 +35,7 @@ module.exports = {
     modificarCuenta: 'verificar',
     administrarPersonal: 'verificarAdmin',
     cerrarSesion: 'verificar',
-    verificarCuenta: 'nada'
+    verificarCuenta: 'nada',
+    adicionarTiempo: "verificar"
   }
 };

@@ -5,9 +5,27 @@ import React, { Component } from "react";
 import Cabecera from './../componentes/cabecera.js'
 import SuperGeneradorFormularios3000 from './../componentes/superGeneradorFormularios3000.js'
 import PiePagina from './../componentes/piePagina.js'
+import Boton from './../componentes/boton.js'
 
 class MiCuenta extends Component
 {
+  parqueoActual(){
+    if(window.datos.usuario.parqueoActual != 0)
+    {
+      return (
+        <div className = "bg-gray-600 bg-opacity-50 p-4 m-2">
+          <h3 className = "mx-auto">Parqueo Actual</h3>
+          <p className = "mw-3/4 mx-auto">
+            Actulamente estacionado en:
+            {window.datos.usuario.parqueoActual.calle.toString()} <br/>
+            Desde las {window.datos.usuario.parqueoActual.fecha.toString()}
+            Con tiempo limite hasta las {window.datos.usuario.parqueoActual.fechaFinal.toString()}
+          </p>
+          <a href = {window.datos.http.get.rutaCuenta.adicionarTiempo} className = "bg-green-600 text-white p-2 hover:no-underline hover:bg-green-500 hover:font-bold"> Modificar tiempo. </a>
+        </div>
+      )
+    }
+  }
   controlCalles()
   {
     if(window.datos.usuario.tipo == 'Operador' || window.datos.usuario.tipo == 'Administrador')
@@ -48,6 +66,7 @@ class MiCuenta extends Component
         <p>Apellido: {window.datos.usuario.apellido}</p>
         <p>Placa: {window.datos.usuario.placa}</p>
         <p>Saldo actual: {window.datos.usuario.saldo}</p>
+        {this.parqueoActual()}
         <a className = 'btn btn-danger' href={window.datos.http.get.rutaCuenta.cerrarSesion}>Cerrar Sesión</a>
         {this.controlCalles()}
       </div>

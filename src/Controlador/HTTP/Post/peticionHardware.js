@@ -1,5 +1,5 @@
 const tarifa = "1";
-const tiempoDefecto = "10"
+const tiempoDefecto = "30"
 module.exports = (rutas, bd, ver, datos, http, passport)=>
 {
   rutas.post(http.post.rutaHardware.Sensor + ":calle/:matricula/",(req,res)=>
