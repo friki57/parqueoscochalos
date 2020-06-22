@@ -32,10 +32,12 @@ class MiCuenta extends Component
     {
       return(
         <div>
-          <a className = 'btn btn-info' href={window.datos.http.get.rutaMapas.administracionCalles}>Ir a control de calles</a>
-          <br></br>
+          <div className = "flex">
+            <a className = 'bg-blue-600 text-white p-2 hover:no-underline hover:bg-blue-700 m-3 rounded' href={window.datos.http.get.rutaMapas.administracionCalles}>Ir a control de calles</a>
+            <a href = {window.datos.http.get.rutaCuenta.adicionarSaldo} className = "rounded bg-yellow-600 text-white p-2 hover:no-underline hover:bg-yellow-700 m-3"> Cargar saldo </a>
+          </div>
+
           <form  action="/descargar" method="post">
-            <br></br>
             <input className = 'btn btn-success' type="submit" name="" value="Descargar listado de calles"/>
           </form>
         </div>

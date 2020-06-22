@@ -53,7 +53,7 @@ module.exports = (passport)=>
                 contra: contraEncriptado,
                 tipo: 'Usuario',
                 placa: req.body.placa,
-                saldo: 50
+                saldo: 0
               };
               bd.cruds.crudUsuario.ingresar(datos,(res)=>
               {

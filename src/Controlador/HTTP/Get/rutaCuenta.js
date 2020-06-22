@@ -187,4 +187,41 @@ module.exports = (rutas, bd, ver, datos, http)=>
     req.session.destroy();
     res.redirect(http.get.rutaInformacion.inicio);
   });
+  rutas.get(http.get.rutaCuenta.adicionarSaldo,ver[http.ver.rutaCuenta.adicionarSaldo],(req,res)=>
+  {
+    datos.SuperGeneradorFormularios3000={
+      titulo: "Agregar Saldo",
+      method: 'post',
+      action: http.post.adicionarSaldo,
+      campos:
+      [
+        {
+          name: 'correo',
+          placeholder: 'Dirección de correo electrónico',
+          value: '',
+          label: 'Correo Electrónico: ',
+          type: 'email'
+        },
+        {
+          name: 'monto',
+          placeholder: 'Monto',
+          value: '',
+          label: 'Monto a añadir',
+          type: 'number'
+        }
+      ]
+    }
+    res.render('inicio',{datos,pagina:http.vista.rutaCuenta.adicionarSaldo})
+  });
+  rutas.post(http.get.rutaCuenta.adicionarSaldo,ver[http.ver.rutaCuenta.adicionarSaldo],(req,res)=>
+  {
+    console.log(req.body)
+    bd.cruds.crudUsuario.buscar({correo:{valor:req.body.correo,tipo:"igual"}},(usuario)=>{
+      usuario = usuario[0];
+      bd.cruds.crudUsuario.modificar(usuario.key,{"saldo":(usuario.saldo+parseInt(req.body.monto,10))},()=>{
+
+        res.redirect(http.get.rutaCuenta.adicionarSaldo)
+      });
+    })
+  });
 }
