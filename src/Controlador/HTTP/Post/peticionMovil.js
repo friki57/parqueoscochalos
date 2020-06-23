@@ -5,7 +5,13 @@ module.exports = (rutas, bd, ver, datos, http, passport)=>
   rutas.post(http.post.rutaMovil.iniciarSesion,(req,res)=>
   {
     console.log(req.body)
-    res.json(req.body)
+    if(req.body.username == "erick" && req.body.password == "contra")
+    {
+      res.json({if:1})
+    }
+    else {
+      res.json(req.body)
+    }
   });
   rutas.get("/Movil/Prueba/" ,(req,res)=>
   {
