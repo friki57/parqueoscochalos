@@ -37,8 +37,8 @@ module.exports = (rutas, bd, ver, datos, http, passport)=>
       }
       else
       {
-          req.flash("error","Los códigos de verificación no coinciden");
-          res.redirect(http.get.rutaCuenta.verificarCuenta);
+        req.flash("error","Los códigos de verificación no coinciden");
+        res.redirect(http.get.rutaCuenta.verificarCuenta);
       }
     });
   });
@@ -100,4 +100,5 @@ module.exports = (rutas, bd, ver, datos, http, passport)=>
       }
     });
   });
+
 }

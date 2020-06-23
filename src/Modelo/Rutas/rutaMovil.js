@@ -2,20 +2,16 @@ module.exports = {
   get:
   {
     mapasInteractivos: '/MapasMovil/',
-    realizarDenuncia: '/Denuncia/Realizar',
-    administrarDenuncia: '/Denuncia/Administrar',
     controlCalles: '/Mapas/Operador',
     administracionCalles: '/Mapas/Administrar'
   },
   post:
   {
-
+    iniciarSesion: "/Movil/Sesion/"
   },
   ver:
   {
     mapasInteractivos: 'nada',
-    realizarDenuncia: 'verificar',
-    administrarDenuncia: 'verificarOperador',
     controlCalles: 'verificarOperador',
     administracionCalles: 'verificarAdmin'
   }
