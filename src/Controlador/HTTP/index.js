@@ -35,6 +35,7 @@ var ret = (passport,io)=> {
   bd.cruds.crudCalle.leerEnVivo((call)=>
   {
     io.sockets.emit('calles', call);
+    console.log("Enviando calles")
   });
   setInterval(()=>
   {
@@ -52,7 +53,7 @@ var ret = (passport,io)=> {
               console.log(plac, pl)
               plac = plac.filter(a=>a.placa!=pl.placa)
               //if(plac.length==0) plac = undefined;
-              bd.cruds.crudCalle.modificar(c.key, {"placas": plac, "espacios": (c.espacios+1)}, ()=>{
+              bd.cruds.crudCalle.modificar(c.key, {"placas": plac, "espacios": (c.espacios-1)}, ()=>{
 
               });
             }
@@ -63,7 +64,7 @@ var ret = (passport,io)=> {
           }
         }
       });
-      io.sockets.emit('callesPorsegundo', calles);
+      // io.sockets.emit('callesPorsegundo', calles);
     });
   },5000);
 

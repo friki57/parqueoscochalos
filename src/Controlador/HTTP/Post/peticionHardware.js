@@ -28,7 +28,7 @@ module.exports = (rutas, bd, ver, datos, http, passport)=>
       {
         const crypto = require('crypto');
         var hash = crypto.randomBytes(7).toString('hex');
-        calle.espacios = calle.espacios - 1;
+        calle.espacios = calle.espacios + 1;
         var placas = calle.placas;
         placas = Object.values(placas);
         placas.push({placa:matricula, tiempo: tiempoDefecto, hora: new Date(), hash});

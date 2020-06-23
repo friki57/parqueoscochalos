@@ -204,15 +204,18 @@ var socket = io();
 function iniciarBD()
 {
     //console.log(window.datos.calles)
-    recibirCalles(window.datos.calles);
-    socket.on('callesPorsegundo', function(data) {
-      //console.log("Llegaron calles")
-      recibirCalles(data);
+    map.on('load', function() {
+      recibirCalles(window.datos.calles);
+      socket.on('calles', function(data) {
+        //console.log("Llegaron calles")
+        recibirCalles(data);
+      });
     });
 }
 
 var keys;
 var disp2;
+var cambiarTiempos;
 function recibirCalles(calles)
 {
 //   console.log("valores", data.val());
@@ -229,6 +232,7 @@ function recibirCalles(calles)
    var espacios=[];
    var placas=[];
    var espaciosMaximo=[];
+   var idplacas = [];
    for(var i=0; i<keys.length; i++)
    {
      var k = keys[i];
@@ -255,8 +259,10 @@ function recibirCalles(calles)
          {
            colt = "bg-red-500"
          }
+         var tiempopl = ((a.tiempoRestante>60)?Math.floor((a.tiempoRestante/60).toString()):"menos de 1");
+         idplacas.push({id:(calles[k].key),hora:a.hora,tiempo:a.tiempo})
          return "<tr><td><div class = 'p-1 font-semibold' style = 'background-color:#0B313F; color: #E79A32' >"+a.placa+"</div><td>"
-         + "<td><div class = 'p-2 " + colt +"' > queda: "+((a.tiempoRestante>60)?Math.floor((a.tiempoRestante/60).toString()):"menos de 1")+" minuto(s)</div></td>"
+         + "<td><div class = 'p-2 " + colt +"' > queda: <span class='"+ calles[k].key +"'>"+ tiempopl +"</span> minuto(s)</div></td>"
        });
        placas.push("<table>" + calles[k].placas.join("") + "</table>");
      }
@@ -273,7 +279,7 @@ function recibirCalles(calles)
     var textoPlaca = "No se encuentra ningún vehículo estaciondo en esta calle durante este momento";
     if(placas[i]!=undefined)
       textoPlaca = placas[i];
-    var texto= "".concat("<div id='popup",k,"'>",nomb[i]," entre ",c1[i]," y ", c2[i], ' \nNúmero de espacios disponibles: ', espaciosMaximo[i]-espacios[i],
+    var texto= "".concat("<div id='popup",k,"'>",nomb[i]," entre ",c1[i]," y ", c2[i], ' <br></br> Número de espacios disponibles: ', espaciosMaximo[i] - espacios[i],
     "<br><strong>Las placas de los vehículos estacionados aquí son: </strong>", textoPlaca, "</div>");
      cargarGeoJson(geojons[i],k,disp[i],pago[i],texto,espaciosMaximo[i],espacios[i]);
    }
@@ -289,6 +295,19 @@ function recibirCalles(calles)
    }
    alternarCapnombre();
 disp2=disp;
+  clearInterval(cambiarTiempos)
+  cambiarTiempos = setInterval(()=>{
+    //console.log("Tiempos",idplacas);
+    idplacas.map((pl)=>{
+      if(document.getElementsByClassName(pl.id).length>0)
+      {
+        pl.tiempoRestante = Math.floor((new Date(pl.hora) - Date.now() + pl.tiempo * 60 * 1000) / (1000));
+        pl.tiempopl = ((pl.tiempoRestante>60)?Math.floor((pl.tiempoRestante/60).toString()):"menos de 1");
+        //console.log(pl)
+        document.getElementsByClassName(pl.id)[0].innerHTML = pl.tiempopl;
+      }
+    })
+  },1000)
 /*console.log("dis2",disp2)
 console.log("dis",disp)*/
 
