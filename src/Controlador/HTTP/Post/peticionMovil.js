@@ -5,6 +5,7 @@ module.exports = (rutas, bd, ver, datos, http, passport)=>
   rutas.post(http.post.rutaMovil.iniciarSesion,(req,res)=>
   {
     console.log(req.body)
+    res.json(req.body)
   });
   rutas.post("/Movil/Prueba/" ,(req,res)=>
   {
