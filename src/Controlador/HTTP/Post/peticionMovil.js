@@ -7,7 +7,7 @@ module.exports = (rutas, bd, ver, datos, http, passport)=>
     console.log(req.body)
     res.json(req.body)
   });
-  rutas.post("/Movil/Prueba/" ,(req,res)=>
+  rutas.get("/Movil/Prueba/" ,(req,res)=>
   {
     res.json({pru:"eba",num:9})
   });
