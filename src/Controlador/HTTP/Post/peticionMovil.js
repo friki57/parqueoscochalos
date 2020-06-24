@@ -8,6 +8,7 @@ module.exports = (rutas, bd, ver, datos, http, passport)=>
     console.log(req.body)
     bd.cruds.crudUsuario.buscar({correo:{tipo: 'igual',valor: req.body.correo}}, (usuario)=>{
      if((usuario.length<=0)){
+      req.body.mensaje = 'El correo '+ req.body.correo + ' no está registrado';
       res.json(req.body)
      }
      else
@@ -17,9 +18,11 @@ module.exports = (rutas, bd, ver, datos, http, passport)=>
          if(err) console.log(err);
            if(resp==true)
            {
+             req.body.mensaje =  "Bienvenido de nuevo " + usuario[0].nombre+" "+usuario[0].apellido
              res.json({if:1,datos:usuario[0]})
            }
            else {
+             req.body.mensaje = 'Contraseña incorrecta';
              res.json(req.body)
            }
        });
