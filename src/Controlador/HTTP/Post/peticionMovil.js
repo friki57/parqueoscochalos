@@ -11,8 +11,8 @@ module.exports = (rutas, bd, ver, datos, http, passport)=>
      }
      else
      {
-       console.log('contra:',contra, usuario[0].contra)
-       bcrypt.compare(contra, usuario[0].contra, function(err, resp) {
+       console.log('contra:',req.body.contra, usuario[0].contra)
+       bcrypt.compare(req.body.contra, usuario[0].contra, function(err, resp) {
          if(err) console.log(err);
            if(resp==true)
            {
