@@ -7,7 +7,7 @@ module.exports = (rutas, bd, ver, datos, http, passport)=>
     console.log(req.body)
     bd.cruds.crudUsuario.buscar({correo:{tipo: 'igual',valor: req.body.correo}}, (usuario)=>{
      if((usuario.length<=0)){
-      return done(null, false, req.flash('error', 'El correo '+ correo + ' no está registrado'));
+      res.json(req.body)
      }
      else
      {
