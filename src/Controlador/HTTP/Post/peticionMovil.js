@@ -18,7 +18,7 @@ module.exports = (rutas, bd, ver, datos, http, passport)=>
          if(err) console.log(err);
            if(resp==true)
            {
-             req.body.mensaje =  "Bienvenido de nuevo " + usuario[0].nombre+" "+usuario[0].apellido
+             usuario[0].mensaje =  "Bienvenido de nuevo " + usuario[0].nombre+" "+usuario[0].apellido
              res.json({if:1,datos:usuario[0]})
            }
            else {
