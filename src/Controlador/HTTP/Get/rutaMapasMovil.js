@@ -8,4 +8,41 @@ module.exports = (rutas, bd, ver, datos, http)=>
       res.json(cal)
     })
   });
+
+  rutas.get("/ParqueoActual/:id" ,(req,res)=>
+  {
+    var id = req.params.id;
+    //datos.usuario = req.user;
+    bd.cruds.crudParqueo.buscar({usuario:{valor:id,tipo:"igual"}},(parqueo)=>{
+      parqueo = parqueo.filter(a=>
+        {
+          const final = (new Date(a.fecha)).getTime() + 1000 * 60 * a.tiempo;
+          const ahora = (Date.now());
+          if(ahora<final)
+          {
+            a.fecha = fechas((new Date(a.fecha)))
+            a.fechaFinal = fechas(new Date(final))
+            return a
+          }
+        }
+      )
+      if(parqueo.length>0)
+      {
+        parqueo = parqueo[0];
+        bd.cruds.crudCalle.buscar({key: {valor:parqueo.calle, tipo:"igual"}},(calles)=>{
+          calles = calles[0]
+          parqueo.calle = [" ",calles.calle, " entre ", calles.c1, " y ", calles.c2].join("")
+          console.log(parqueo)
+          var parqueoActual = parqueo;
+          res.json(parqueoActual)
+        });
+      }
+      else {
+        var parqueoActual = 0;
+        res.json(parqueoActual)
+      }
+    });
+  });
+
+
 }
