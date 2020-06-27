@@ -20,7 +20,7 @@ const fechas = require('./../Utiles/fechas');
           const ahora = (Date.now() + 1000 * 60 * 60);
           if(ahora<final)
           {
-            a.fecha = fechas((new Date(a.fecha)))
+            a.fecha = fechas(new Date((new Date(a.fecha)).getTime() + 1000 * 60 * 60))
             a.fechaFinal = fechas(new Date(final))
             return a
           }
