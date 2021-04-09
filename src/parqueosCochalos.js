@@ -66,8 +66,8 @@ app.use(rutas(passport,io));
 
 
 
-//app.listen(puerto, '104.225.141.251', ()=>
-server.listen(puerto, ()=>
+app.listen(puerto, '138.128.243.212', ()=>
+//server.listen(puerto, ()=>
 {
   console.log("Servidor lanzado en el puerto:",puerto);
   // const = require('./Modelo/BD/conexion');
