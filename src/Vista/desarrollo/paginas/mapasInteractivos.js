@@ -7,7 +7,7 @@ import Cabecera from './../componentes/cabecera.js'
 import FotoTexto from './../componentes/fotoTexto.js'
 import PiePagina from './../componentes/piePagina.js'
 
-import funcionesMapa from './../scripts/funcionesMapa.js'
+// import funcionesMapa from './../scripts/funcionesMapa.js'
 
 const mapa = {
   minWidth:'80%',
