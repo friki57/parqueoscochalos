@@ -89,7 +89,7 @@ module.exports = (rutas, bd, ver, datos, http, passport)=>
           })
           parqueo.tiempo = parseInt(parqueo.tiempo,10) + parseInt(tiempo,10);
           bd.cruds.crudCalle.modificar(calles.key,{"placas":calles.placas},()=>{});
-          bd.cruds.crudParqueo.modificar(parqueo.key,{"tiempo":parqueo.tiempo},()=>{});
+          bd.cruds.crudParqueo.modificar(parqueo.key,{"tiempo":parqueo.tiempo.toString()},()=>{});
           bd.cruds.crudUsuario.modificar(req.user.key,{"saldo": (req.user.saldo-costo)},()=>{})
           res.redirect(http.get.rutaCuenta.adicionarTiempo)
         });

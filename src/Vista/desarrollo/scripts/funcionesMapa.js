@@ -264,6 +264,7 @@ function recibirCalles(calles)
          return "<tr><td><div class = 'p-1 font-semibold' style = 'background-color:#0B313F; color: #E79A32' >"+a.placa+"</div><td>"
          + "<td><div class = 'p-2 " + colt +"' > queda: <span class='"+ calles[k].key +"'>"+ tiempopl +"</span> minuto(s)</div></td>"
        });
+       console.log(       calles[k].placas)
        placas.push("<table>" + calles[k].placas.join("") + "</table>");
      }
      if(calles[k].espacios != undefined)
