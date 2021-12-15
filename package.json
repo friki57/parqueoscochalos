@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/parqueosCochalos.js",
-    "test": "nodemon src/parqueosCochalosTest.js",
+    "test": "nodemon src/servidorpruebas.js",
     "react": "webpack --mode development --watch",
     "testeo": "./node_modules/.bin/jest"
   },

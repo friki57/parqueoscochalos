@@ -66,7 +66,7 @@ app.use(rutas(passport,io));
 
 
 
-app.listen(puerto, '138.128.243.212', ()=>
+app.listen(puerto, '83.229.39.60', ()=>
 //server.listen(puerto, ()=>
 {
   console.log("Servidor lanzado en el puerto:",puerto);

@@ -9,7 +9,8 @@ module.exports = {
     cerrarSesion: '/CerrarSesion',
     verificarCuenta: '/Cuenta/Verificar',
     adicionarTiempo: "/Cuenta/AdicionarTiempo",
-    adicionarSaldo: "/Administracion/Saldo"
+    adicionarSaldo: "/Administracion/Saldo",
+    reportes: "/Administracion/Reportes"
   },
   post:
   {
@@ -29,7 +30,8 @@ module.exports = {
     administrarPersonal: 'administrarPersonal',
     verificarCuenta: 'verificarCuenta',
     adicionarTiempo: "adicionarTiempo",
-    adicionarSaldo: "aumentarSaldo"
+    adicionarSaldo: "aumentarSaldo",
+    reportes: "reportes"
   },
   ver:
   {
@@ -41,6 +43,7 @@ module.exports = {
     cerrarSesion: 'verificar',
     verificarCuenta: 'nada',
     adicionarTiempo: "verificar",
-    adicionarSaldo: "verificarAdmin"
+    adicionarSaldo: "verificarAdmin",
+    reportes: "nada"
   }
 };

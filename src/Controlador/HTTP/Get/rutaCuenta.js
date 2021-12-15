@@ -213,14 +213,46 @@ module.exports = (rutas, bd, ver, datos, http)=>
     }
     res.render('inicio',{datos,pagina:http.vista.rutaCuenta.adicionarSaldo})
   });
+  rutas.get(http.get.rutaCuenta.reportes,ver[http.ver.rutaCuenta.reportes],(req,res)=>
+  {
+    bd.cruds.crudParqueo.leer((parqueos)=>
+    {
+      bd.cruds.crudCalle.leer((calles)=>
+      {
+        calles=calles.map(a=>{
+          a.callecompleta = "".concat(a.calle," entre ",a.c1," y ", a.c2)
+          return a;
+        })
+        bd.cruds.crudSaldo.leer((saldos)=>
+        {
+          bd.cruds.crudUsuario.leer((usuarios)=>
+          {
+            usuarios = usuarios.map(a=>{
+              delete a.contra;
+              return a;
+            })
+            datos.parqueos=parqueos.reverse();
+            datos.usuarios=usuarios;
+            datos.calles=calles;
+            datos.saldos=saldos;
+            res.render('inicio',{datos,pagina:http.vista.rutaCuenta.reportes})
+
+          })
+        })
+      })
+
+    })
+  });
   rutas.post(http.get.rutaCuenta.adicionarSaldo,ver[http.ver.rutaCuenta.adicionarSaldo],(req,res)=>
   {
     console.log(req.body)
     bd.cruds.crudUsuario.buscar({correo:{valor:req.body.correo,tipo:"igual"}},(usuario)=>{
       usuario = usuario[0];
       bd.cruds.crudUsuario.modificar(usuario.key,{"saldo":(usuario.saldo+parseInt(req.body.monto,10))},()=>{
+        bd.cruds.crudSaldo.ingresar({usuario:usuario.placa,fecha:(new Date).toString(),cajero:req.user.ci,monto:req.body.monto},()=>{
 
-        res.redirect(http.get.rutaCuenta.adicionarSaldo)
+          res.redirect(http.get.rutaCuenta.adicionarSaldo)
+        })
       });
     })
   });
