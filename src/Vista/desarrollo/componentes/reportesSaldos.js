@@ -54,7 +54,7 @@ class Boton extends Component
   buscar(){
     var dat = Clonar(this.state.datos);
     console.log(dat.saldos);
-    dat.saldos = Buscar(dat.saldos,{usuario:{valor:form.usuario,tipo:"contieneString"}})
+    dat.saldos = Buscar(dat.saldos,{usuario:{valor:form.usuario.toUpperCase(),tipo:"contieneString"}})
     dat.saldos = Buscar(dat.saldos,{cajero:{valor:form.cajero,tipo:"contieneString"}})
     // var sald = [];
     // dat.usuarios.map(a=>{

@@ -45,6 +45,7 @@
     "prettyjson": "^1.2.1",
     "random-hash": "^4.0.1",
     "react-transition-group": "^1.2.1",
+    "recharts": "^2.1.8",
     "serve-favicon": "^2.5.0",
     "socket.io": "^2.3.0",
     "style-loader": "^1.2.1",

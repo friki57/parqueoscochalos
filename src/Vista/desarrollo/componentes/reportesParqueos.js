@@ -58,7 +58,7 @@ class Boton extends Component
     //     if(ele["ci"]!=undefined)
     //      return ele["ci"].includes(form["ci"])
     //   });
-    dat.usuarios = Buscar(dat.usuarios,{placa:{valor:form.ci,tipo:"contieneString"}})
+    dat.usuarios = Buscar(dat.usuarios,{placa:{valor:form.ci.toUpperCase(),tipo:"contieneString"}})
     var parq = [];
     dat.usuarios.map(a=>{
       parq = parq.concat(Buscar(dat.parqueos,{usuario:{valor:a.key,tipo:"igual"}}))

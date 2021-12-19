@@ -185,7 +185,7 @@ module.exports = (rutas, bd, ver, datos, http)=>
   {
     req.logout();
     req.session.destroy();
-    res.redirect(http.get.rutaInformacion.inicio);
+    res.redirect(http.get.rutaCuenta.inicioSesion);
   });
   rutas.get(http.get.rutaCuenta.adicionarSaldo,ver[http.ver.rutaCuenta.adicionarSaldo],(req,res)=>
   {
@@ -243,17 +243,55 @@ module.exports = (rutas, bd, ver, datos, http)=>
 
     })
   });
+  rutas.get(http.get.rutaCuenta.asignarCargo,ver[http.ver.rutaCuenta.asignarCargo],(req,res)=>
+  {
+    datos.SuperGeneradorFormularios3000={
+      titulo: "Asignación de Cargos",
+      method: 'post',
+      action: http.post.asignarCargo,
+      campos:
+      [
+        {
+          name: 'correo',
+          placeholder: 'Dirección de correo electrónico',
+          value: '',
+          label: 'Correo Electrónico: ',
+          type: 'email'
+        },
+        {
+          name: 'tipo',
+          placeholder: 'Cargo',
+          label: 'Cargo a asignar',
+          type: 'combobox',
+          contenido: [
+            {valor:"Usuario", selected:true, contenido: "Usuario Condutor"},
+            {valor:"Cajero", contenido: "Cajero"},
+            {valor:"Administrador", contenido: "Administrador"}
+          ],
+          color: "text-white"
+        }
+      ]
+    }
+    res.render('inicio',{datos,pagina:http.vista.rutaCuenta.asignarCargo});
+  });
   rutas.post(http.get.rutaCuenta.adicionarSaldo,ver[http.ver.rutaCuenta.adicionarSaldo],(req,res)=>
   {
     console.log(req.body)
     bd.cruds.crudUsuario.buscar({correo:{valor:req.body.correo,tipo:"igual"}},(usuario)=>{
-      usuario = usuario[0];
-      bd.cruds.crudUsuario.modificar(usuario.key,{"saldo":(usuario.saldo+parseInt(req.body.monto,10))},()=>{
-        bd.cruds.crudSaldo.ingresar({usuario:usuario.placa,fecha:(new Date).toString(),cajero:req.user.ci,monto:req.body.monto},()=>{
-
-          res.redirect(http.get.rutaCuenta.adicionarSaldo)
-        })
-      });
+      if(usuario.length>0)
+      {
+        usuario = usuario[0];
+        bd.cruds.crudUsuario.modificar(usuario.key,{"saldo":(usuario.saldo+parseInt(req.body.monto,10))},()=>{
+          bd.cruds.crudSaldo.ingresar({usuario:usuario.placa,fecha:(new Date).toString(),cajero:req.user.ci,monto:req.body.monto},()=>{
+            req.flash("confirm",["Carga de saldo exitosa de",req.body.monto,"bolivianos a la cuenta de",usuario.nombre,usuario.apellido].join(" "));
+            res.redirect(http.get.rutaCuenta.adicionarSaldo)
+          })
+        });
+      }
+      else {
+        req.flash("error","Error, correo equivocado");
+        res.redirect(http.get.rutaCuenta.adicionarSaldo)
+      }
     })
   });
 }

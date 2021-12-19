@@ -8,6 +8,7 @@ import PiePagina from './../componentes/piePagina.js'
 import Boton from './../componentes/boton.js'
 import ReportesParqueos from './../componentes/reportesParqueos.js'
 import ReportesSaldos from './../componentes/reportesSaldos.js'
+import ReportesCalles from './../componentes/reportesCalles.js'
 
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
@@ -84,12 +85,13 @@ class Inicio extends Component
     return (
       <div>
         <Cabecera></Cabecera>
-        <div className="flexV p-10" style = {{background: "#fffa"}}>
+        <div className="flexV p-10" style = {{backgroundImage: "url(/img/textura1.jpg)"}}>
           <div className="p-10 w-3/4">
-            <h3 className = "mx-auto">Reportes de uso del sistema</h3>
+            <h3 className = "mx-auto text-white">Reportes de uso del sistema</h3>
             <br></br>
-            <button onClick={this.CambiarReporte} name="Parqueos" className="active:bg-blue-800 hover:bg-blue-700 hover:text-white rounded-full rounded-r-none my-5 mr-0 bg-blue-500 p-3" >Parqueos</button>
-            <button onClick={this.CambiarReporte} name="Saldos" className="active:bg-yellow-800 hover:bg-yellow-700 hover:text-white rounded-full rounded-l-none my-5 ml-0 bg-yellow-500 p-3">Saldos</button>
+            <button onClick={this.CambiarReporte} name="Parqueos" className=" font-bold active:bg-blue-800 hover:bg-blue-700 hover:text-white rounded-full rounded-r-none my-5 mr-0 bg-blue-400 p-3" >Parqueos</button>
+            <button onClick={this.CambiarReporte} name="Calles" className=" font-bold active:bg-green-800 hover:bg-green-700 hover:text-white rounded-l-none rounded-r-none my-5 mr-0 bg-green-400 p-3" >Calles</button>
+            <button onClick={this.CambiarReporte} name="Saldos" className=" font-bold active:bg-yellow-800 hover:bg-yellow-700 hover:text-white rounded-full rounded-l-none my-5 ml-0 bg-yellow-400 p-3">Saldos</button>
 
             <br></br>
 
@@ -97,7 +99,11 @@ class Inicio extends Component
               this.state.panel=="Parqueos"?
               <ReportesParqueos datos={window.datos}></ReportesParqueos>
               :
+              this.state.panel=="Saldos"?
               <ReportesSaldos datos={window.datos}></ReportesSaldos>
+              :
+              <ReportesCalles datos={window.datos}></ReportesCalles>
+
             }
 
             <select onChange={this.CambiarCategoria}>

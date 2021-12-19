@@ -5,8 +5,14 @@ module.exports = (email,bd,id)=>
 {
   const auth = require('./autenticacion.js');
   var transporter = nodemailer.createTransport({
-    service: 'gmail',
-    auth: auth
+    host: 'smtp.gmail.com',
+    port: 465,
+    secure: true,
+    requireTLS: true,
+    auth: {
+      user: 'parqueoscochalos@gmail.com',
+      pass: 'parqueos1'
+    }
   });
   // import generateHash from 'random-hash';
   // const hash =  generateHash({ length: 6 });

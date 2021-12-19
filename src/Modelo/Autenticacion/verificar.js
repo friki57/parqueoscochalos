@@ -26,13 +26,13 @@ function obj()
   this.verificarOperador = (req, res, next)=>{
     if(req.isAuthenticated())
     {
-        if(req.user.tipo == 'Operador' || req.user.tipo == 'Administrador')
+        if(req.user.tipo == 'Cajero' || req.user.tipo == 'Administrador')
         {
           return next();
         }
         else
         {
-          req.flash("error","Es necesario iniciar sesion como Operador o Administrador");
+          req.flash("error","Es necesario iniciar sesion como Cajero o Administrador");
           res.redirect('back');
         }
     }

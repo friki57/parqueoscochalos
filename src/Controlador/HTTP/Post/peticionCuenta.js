@@ -13,7 +13,7 @@ module.exports = (rutas, bd, ver, datos, http, passport)=>
   });
   rutas.post(http.post.rutaCuenta.crearCuenta,passport.authenticate("registrarse",
     {
-      successRedirect: http.get.rutaInformacion.miCuenta,
+      successRedirect: http.get.rutaCuenta.miCuenta,
       failureRedirect: http.get.rutaCuenta.inicioSesion,
       failureFlash: true
     })
@@ -30,7 +30,7 @@ module.exports = (rutas, bd, ver, datos, http, passport)=>
         console.log('---------------------------------------',id)
         bd.cruds.crudUsuario.modificar(id,{hash:1},()=>
         {
-          req.flash("confirmacion","Tu cuenta fue verificada correctamente. ¡Disfruta de Parqueos Cochalos!");
+          req.flash("confirm","Tu cuenta fue verificada correctamente. ¡Disfruta de Parqueos Cochalos!");
           console.log('--------------------------------',req.flash('confirmacion'))
           res.redirect(http.get.rutaCuenta.miCuenta);
         });
@@ -100,5 +100,26 @@ module.exports = (rutas, bd, ver, datos, http, passport)=>
       }
     });
   });
-
+  rutas.post(http.post.rutaCuenta.asignarCargo,ver[http.ver.rutaCuenta.asignarCargo],(req,res)=>
+  {
+    datos.usuario = req.user;
+    console.log(req.body)
+    bd.cruds.crudUsuario.buscar({correo:{valor:req.body.correo,tipo:"igual"}},(usuario)=>{
+      if(usuario.length>0)
+      {
+        usuario = usuario[0];
+        viejo = usuario.tipo
+        usuario.tipo = req.body.tipo
+        bd.cruds.crudUsuario.modificar(usuario.key, usuario, ()=>{
+          req.flash('confirm', ['El cargo de', usuario.nombre, usuario.apellido, "ha sido cambiado de", viejo, "a", req.body.tipo].join(" "))
+                // usuario.nombre.concat(" ",usuario.apellido)+" ha sido cambiado de "+ viejo.concat(" a ",req.body.tipo))
+          res.redirect(http.get.rutaCuenta.asignarCargo)
+        })
+      }
+      else {
+        req.flash('error', 'El correo está equivocado')
+        res.redirect(http.get.rutaCuenta.asignarCargo)
+      }
+    });
+  });
 }

@@ -44,7 +44,7 @@ class SuperGeneradorFormularios3000 extends Component
           case 'combobox':
             return (
               <div>
-                <label htmlFor={campo.name}> {campo.label} </label>
+                <label className={campo.color} htmlFor={campo.name}> {campo.label} </label>
                 <br></br>
                 <select name = {campo.name} required={campo.required} readOnly={campo.readonly}>
                   {
@@ -80,6 +80,7 @@ class SuperGeneradorFormularios3000 extends Component
         <form action = {this.state.form.action} method = {this.state.form.method} encType={this.state.form.enctype}>
           <h1 style = {{color:"#fff"}}>{this.state.form.titulo}</h1>
           {campos}
+          <br/>
           <button type='Submit' style = {estiloBoton}> Confirmar</button>
         </form>
       }

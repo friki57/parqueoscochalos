@@ -17,7 +17,11 @@ class Inicio extends Component
       <div className="grilla" style = {{background: "url(/img/cochabamba.jpg)", backgroundSize:"100% 100%"}}>
       <div style = {{background: "#0B313F88"}} className="cuerpo flexV">
         <SuperGeneradorFormularios3000></SuperGeneradorFormularios3000>
-        <span style = {{color:"#fff"}}>¿No estás registrado en parqueos Cochalos?</span> <a href= {window.datos.http.get.rutaCuenta.crearCuenta}>Hazlo ahora.</a>
+        <div className="bg-white m-2 rounded p-2">
+          <span style = {{color:"#000"}}>¿No estás registrado en parqueos Cochalos?</span>
+          <br/>
+          <a href= {window.datos.http.get.rutaCuenta.crearCuenta}>Hazlo ahora.</a>
+        </div>
       </div>
       </div>
       <PiePagina></PiePagina>
