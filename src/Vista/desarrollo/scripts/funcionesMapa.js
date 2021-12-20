@@ -214,7 +214,7 @@ function alternarCapnombre()
   }
 }
 
-var socket = io();
+var socket = io("http://83.229.39.60:4080");
 //Codigo de base de datos y socket
 function iniciarBD()
 {
