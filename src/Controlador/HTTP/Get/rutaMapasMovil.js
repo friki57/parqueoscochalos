@@ -10,6 +10,7 @@ module.exports = (rutas, bd, ver, datos, http)=>
 const fechas = require('./../Utiles/fechas');
   rutas.get("/ParqueoActual/:id" ,(req,res)=>
   {
+    // console.log(",,,,,,,,,,,,,,,, parqueoActual movil");
     var id = req.params.id;
     //datos.usuario = req.user;
     bd.cruds.crudParqueo.buscar({usuario:{valor:id,tipo:"igual"}},(parqueo)=>{

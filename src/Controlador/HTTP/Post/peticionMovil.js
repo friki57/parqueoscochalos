@@ -33,7 +33,7 @@ module.exports = (rutas, bd, ver, datos, http, passport)=>
   {
     res.json({pru:"eba",num:9})
   });
-  rutas.post('/aumentartiempo/:tiempo/:id/:saldo',ver[http.ver.rutaCuenta.adicionarTiempo],(req,res)=>
+  rutas.post('/aumentartiempo/:tiempo/:id/:saldo',(req,res)=>
   {
     const tiempo = req.params.tiempo;
     var id = req.params.id;
@@ -68,12 +68,12 @@ module.exports = (rutas, bd, ver, datos, http, passport)=>
           bd.cruds.crudCalle.modificar(calles.key,{"placas":calles.placas},()=>{});
           bd.cruds.crudParqueo.modificar(parqueo.key,{"tiempo":parqueo.tiempo},()=>{});
           bd.cruds.crudUsuario.modificar(id,{"saldo": (saldo-costo)},()=>{})
-          res.redirect(http.get.rutaCuenta.adicionarTiempo)
+          res.json({resp: "Parqueo vigente aumentado en "+tiempo+" minutos"})
         });
       }
       else {
 
-        res.redirect(http.get.rutaCuenta.miCuenta)
+        res.json({resp:"No tiene un parqueo vigente"})
       }
     });
   });
