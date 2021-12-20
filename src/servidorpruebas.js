@@ -9,7 +9,7 @@ const cookieParser = require('cookie-parser');
 var app = express();
 
 var server = require('http').Server(app);
-var io = require('socket.io')(server);
+var io = require('socket.io').listen(server);
 
 var puerto = "4000";
 // var puerto = process.env.PORT || "4000";
