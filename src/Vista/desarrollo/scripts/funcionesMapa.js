@@ -214,9 +214,9 @@ function alternarCapnombre()
   }
 }
 
-var socket = io.connect("http://83.229.39.60:3080");
+var socket = io.connect("http://83.229.39.60:3000");
 socket.on('dong', function(data) {
-  console.log("dong"+data)
+  console.log("dong")
 });
 //Codigo de base de datos y socket
 function iniciarBD()
