@@ -214,10 +214,12 @@ function alternarCapnombre()
   }
 }
 
-var socket = io.connect("http://localhost:4000");
+var socket = io();
 socket.on('dong', function(data) {
   console.log("dong")
 });
+console.log("ding")
+
 //Codigo de base de datos y socket
 function iniciarBD()
 {
