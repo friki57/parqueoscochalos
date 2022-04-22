@@ -11,7 +11,7 @@ var app = express();
 var server = require('http').Server(app);
 var io = require('socket.io').listen(server);
 
-var puerto = "4000";
+var puerto = "5000";
 // var puerto = process.env.PORT || "4000";
 require('./Modelo/Autenticacion/local.js')(passport);
 
@@ -66,7 +66,7 @@ app.use(rutas(passport,io));
 
 
 
-// app.listen(puerto, '138.128.243.212', ()=>
+// app.listen(puerto, '83.229.86.168', ()=>
 server.listen(puerto, ()=>
 {
   console.log("Servidor lanzado en el puerto:",puerto);
