@@ -74,7 +74,10 @@ class MiCuenta extends Component
           <p>Nombre: {window.datos.usuario.nombre}</p>
           <p>Apellido: {window.datos.usuario.apellido}</p>
           <p>Placa: {window.datos.usuario.placa}</p>
-          <p>Saldo actual: {window.datos.usuario.saldo}</p>
+          <p>Saldo actual: {window.datos.usuario.saldo}
+              <a className='btn btn-success m-2' href={window.datos.http.get.rutaCuenta.qr}>+</a>
+          </p> 
+          
           {this.parqueoActual()}
           <a className = 'btn btn-danger' href={window.datos.http.get.rutaCuenta.cerrarSesion}>Cerrar Sesión</a>
 

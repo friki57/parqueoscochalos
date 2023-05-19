@@ -5,7 +5,8 @@ module.exports = {
   },
   post:
   {
-    Sensor: '/SensorRecibir/'
+    Sensor: '/SensorRecibir/',
+    QR: '/QR/'
   },
   vista:
   {
@@ -13,6 +14,7 @@ module.exports = {
   },
   ver:
   {
-    Sensor: 'nada'
+    Sensor: 'nada',
+    QR: 'nada'
   }
 };

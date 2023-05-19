@@ -11,7 +11,8 @@ module.exports = {
     adicionarTiempo: "/Cuenta/AdicionarTiempo",
     adicionarSaldo: "/Administracion/Saldo",
     reportes: "/Administracion/Reportes",
-    asignarCargo: "/Administracion/Cargos"
+    asignarCargo: "/Administracion/Cargos",
+    qr: "/Cuenta/Recargar",
   },
   post:
   {
@@ -21,7 +22,8 @@ module.exports = {
     reenviarConfirmacion: '/ReenviarConfirmacion',
     adicionarTiempo: '/AdicionarTiempo/',
     adicionarSaldo: "/Modificar/Saldo",
-    asignarCargo: "/Administracion/Cargos"
+    asignarCargo: "/Administracion/Cargos",
+    qr: "/Cuenta/Recargar",
   },
   vista:
   {
@@ -34,7 +36,8 @@ module.exports = {
     adicionarTiempo: "adicionarTiempo",
     adicionarSaldo: "aumentarSaldo",
     reportes: "reportes",
-    asignarCargo: "asignarCargo"
+    asignarCargo: "asignarCargo",
+    qr: "qr"
   },
   ver:
   {
@@ -48,6 +51,7 @@ module.exports = {
     adicionarTiempo: "verificar",
     adicionarSaldo: "verificarOperador",
     reportes: "verificarAdmin",
-    asignarCargo: "verificarAdmin"
+    asignarCargo: "verificarAdmin",
+    qr: "verificar"
   }
 };

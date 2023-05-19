@@ -122,4 +122,15 @@ module.exports = (rutas, bd, ver, datos, http, passport)=>
       }
     });
   });
+  rutas.post(http.post.rutaCuenta.qr + ':monto', ver[http.ver.rutaCuenta.qr], (req, res) => {
+    const monto = req.params.monto;
+    const usuario = req.user;
+    console.log(usuario)
+    bd.cruds.crudUsuario.modificar(usuario.key, { "saldo": (usuario.saldo + parseInt(monto, 10)) }, () => {
+      bd.cruds.crudSaldo.ingresar({ usuario: usuario.placa, fecha: (new Date).toString(), cajero: 'Recarga QR', monto }, () => {
+        req.flash("confirm", ["Si ya realizó el pago aguarde unos segundos"].join(" "));
+        res.redirect("/img/qr"+monto+".jpg")
+      })
+    });
+  });
 }

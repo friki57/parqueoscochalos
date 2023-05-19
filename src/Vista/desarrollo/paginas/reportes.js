@@ -106,7 +106,7 @@ class Inicio extends Component
 
             }
 
-            <select onChange={this.CambiarCategoria}>
+            {/* <select onChange={this.CambiarCategoria}>
               <option value={1}>1</option>
               <option value={2}>2</option>
               <option value={3}>3</option>
@@ -123,7 +123,7 @@ class Inicio extends Component
               <CartesianGrid stroke="#f5f5f5" />
               <Line type="monotone" dataKey="amt" stroke="#ff7300" yAxisId={0} />
               <Line type="monotone" dataKey="pv" stroke="#387908" yAxisId={1} />
-            </LineChart>
+            </LineChart> */}
           </div>
 
         </div>

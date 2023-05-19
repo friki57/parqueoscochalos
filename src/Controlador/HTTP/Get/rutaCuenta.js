@@ -294,4 +294,9 @@ module.exports = (rutas, bd, ver, datos, http)=>
       }
     })
   });
+
+  rutas.get(http.get.rutaCuenta.qr, ver[http.ver.rutaCuenta.qr], (req, res) => {
+    datos.usuario = req.user;
+    res.render('inicio', { datos, pagina: http.vista.rutaCuenta.qr })
+  });
 }

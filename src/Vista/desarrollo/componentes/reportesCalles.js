@@ -2,6 +2,10 @@ import React, { Component } from "react";
 import Buscar from "../../../Controlador/CRUDS/buscar.js"
 import Fechas from "../../../Controlador/HTTP/Utiles/fechas0.js"
 import Clonar from "../../../Controlador/HTTP/Utiles/Clonar.js"
+import FiltroFecha from "./filtroFecha.js";
+import ListaFechas from "../../../Controlador/HTTP/Utiles/ListaFechas.js";
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+
 
 const estiloDiv =
 {
@@ -31,7 +35,9 @@ const estiloBoton =
 }
 var form = {
   fecha:"",
-  ci:""
+  ci:"",
+  ini: "",
+  fin: ""
 }
 class Boton extends Component
 {
@@ -53,12 +59,16 @@ class Boton extends Component
     // });
     this.state = {
       datos: Clonar(props.datos),
-      datosfiltrados: Clonar(props.datos)
+      datosfiltrados: Clonar(props.datos),
+      calleFecha: []
     }
     //console.log("eeeeeee",this.state.datos,this.state.datosfiltrados,props.datos,Clonar(props.datos));
     this.buscar = this.buscar.bind(this)
     this.cambiosInput = this.cambiosInput.bind(this)
 
+  }
+  componentWillMount() {
+    setTimeout(() => this.buscar(), 1000);
   }
   cambiosInput(e){
     form[e.target.name]=e.target.value;
@@ -71,11 +81,17 @@ class Boton extends Component
     dat.calles = Buscar(dat.calles,{callecompletau:{valor:form.ci.toUpperCase(),tipo:"contieneString"}})
     var parq = [];
     dat.calles = dat.calles.map(a=>{
-      a.total = Buscar(dat.parqueos,{calle:{valor:a.key,tipo:"igual"}}).length
+      const parqueosFiltrados = Buscar(dat.parqueos, { fecha: { ini: form.ini, fin: form.fin, tipo: "fecha" } }) 
+      a.total = Buscar(parqueosFiltrados,{calle:{valor:a.key,tipo:"igual"}}).length
       return a;
     })
-
-    this.setState({datosfiltrados:dat})
+    let calleFecha = {
+      x: dat.calles.map(x=>x.callecompleta),
+      y: dat.calles.map(x => x.total),
+    }
+    calleFecha = calleFecha.x.map((x, i) => ({ Fecha: x, name: x, Uso: calleFecha.y[i] }));
+    console.log("CalleFecha", calleFecha)
+    this.setState({ datosfiltrados: dat, calleFecha })
     console.log(form,dat.calles);
   }
   render()
@@ -86,6 +102,25 @@ class Boton extends Component
           <label htmlFor="ci"> Nombre calle</label>
           <br></br>
           <input onChange={this.cambiosInput} style = {estiloInput} key="ci" name = "ci" type = "text" defaultValue = {""}></input>
+          <br></br>
+          <FiltroFecha form = {form} buscar={this.buscar}></FiltroFecha>
+          <div>
+            <h3>Resultados:</h3>
+            Usos totales: {this.state.datosfiltrados.calles.reduce((a, b) => a + parseFloat(b.total), 0)} <br></br>
+          </div>
+          <br></br>
+          <LineChart
+            width={800}
+            height={600}
+            data={this.state.calleFecha}
+            margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
+            className="bg-white"
+          >
+            <XAxis dataKey="Fecha" />
+            <Tooltip />
+            <CartesianGrid stroke="#333" />
+            <Line type="monotone" dataKey="Uso" stroke="#4ade80" yAxisId={0} />
+          </LineChart>
           <br></br>
         </div>
         <table className="table bg-white">
