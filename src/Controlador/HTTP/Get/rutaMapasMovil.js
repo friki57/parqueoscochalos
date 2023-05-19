@@ -16,8 +16,8 @@ const fechas = require('./../Utiles/fechas');
     bd.cruds.crudParqueo.buscar({usuario:{valor:id,tipo:"igual"}},(parqueo)=>{
       parqueo = parqueo.filter(a=>
         {
-          const final = (new Date(a.fecha)).getTime() + 1000 * 60 * a.tiempo + 1000 * 60 * 60;
-          const ahora = (Date.now() + 1000 * 60 * 60);
+          const final = (new Date(a.fecha)).getTime() + 1000 * 60 * a.tiempo + 1000 * 60 * 60 * 6;
+          const ahora = (Date.now() + 1000 * 60 * 60 * 6);
           if(ahora<final)
           {
             a.fecha = fechas(new Date((new Date(a.fecha)).getTime() + 1000 * 60 * 60))
