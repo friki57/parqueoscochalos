@@ -64,7 +64,9 @@ var ret = (passport,io)=> {
           }
         }
       });
-      io.sockets.emit('callesPorsegundo', calles);
+      //io.sockets.emit('callesPorsegundo', calles);
+      io.sockets.emit('calles', calles);
+      console.log("Enviando calles")
     });
   },5000);
 
