@@ -23,7 +23,7 @@ const fechas = require('./../Utiles/fechas');
           {
             a.fecha = fechas(new Date((new Date(a.fecha)).getTime() + 1000 * 60 * 60 * 6))
             a.fechaFinal = fechas(new Date(final))
-            a.tiempoRestante = final - (new Date).getTime();
+            a.tiempoRestante = final - (new Date).getTime() + seis;
             return a
           }
         }
