@@ -68,7 +68,7 @@ var ret = (passport,io)=> {
       io.sockets.emit('calles', calles);
       console.log("Enviando calles")
     });
-  },5000);
+  },10000);
 
   const confirmacion = require('./../../Modelo/ConfirmacionEmail/Funciones.js');
   //confirmacion('aranibarerick@gmail.com',bd,'-LvuQdVsxHMMVZC1L0L0');
