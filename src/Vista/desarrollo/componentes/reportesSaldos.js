@@ -96,15 +96,15 @@ class Boton extends Component
           <br></br>
           <input onChange={this.cambiosInput} style = {estiloInput} key="usuario" name = "usuario" type = "text" defaultValue = {""}></input>
           <br></br>
-          <label htmlFor="ci"> Carnet de Identidad </label>
-          <br></br>
-          <input onChange={this.cambiosInput} style = {estiloInput} key="cajero" name = "cajero" type = "text" defaultValue = {""}></input>
-          <br></br>
+          {/* <label htmlFor="ci"> Carnet de Identidad </label>
+          <br></br> */}
+          {/* <input onChange={this.cambiosInput} style = {estiloInput} key="cajero" name = "cajero" type = "text" defaultValue = {""}></input>
+          <br></br> */}
           <FiltroFecha form={form} buscar={this.buscar}></FiltroFecha>
           <div>
             <h3>Resultados:</h3> 
             Monto total: {this.state.datosfiltrados.saldos.reduce((a, b) => a + parseFloat(b.monto), 0) } <br></br>
-            Recargas por cajero: {this.state.datosfiltrados.saldos.reduce((a, b) => (b.cajero!=="Recarga QR")?a + 1:a, 0) } <br></br>
+            {/* Recargas por cajero: {this.state.datosfiltrados.saldos.reduce((a, b) => (b.cajero!=="Recarga QR")?a + 1:a, 0) } <br></br> */}
             Recargas por QR: {this.state.datosfiltrados.saldos.reduce((a, b) => (b.cajero==="Recarga QR")?a + 1:a, 0) } <br></br>
           </div>
           <br></br>
@@ -129,7 +129,7 @@ class Boton extends Component
               <th scope="col">Placa</th>
               <th scope="col">Monto</th>
               <th scope="col">Fecha</th>
-              <th scope="col">Cajero</th>
+              <th scope="col">Medio</th>
             </tr>
           </thead>
           <tbody>

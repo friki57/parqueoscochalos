@@ -149,7 +149,7 @@ class Boton extends Component
             }
           </tbody>
         </table>
-        <button onClick={this.buscar} style = {estiloBoton} className="hover:bg-red-500"> Buscar</button>
+        {/* <button onClick={this.buscar} style = {estiloBoton} className="hover:bg-red-500"> Buscar</button> */}
       </div>
     )
   }

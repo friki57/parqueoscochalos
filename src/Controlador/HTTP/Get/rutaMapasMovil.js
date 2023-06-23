@@ -7,6 +7,12 @@ module.exports = (rutas, bd, ver, datos, http)=>
       res.json(cal)
     })
   });
+/*   rutas.get("/Saldo/:key" ,(req,res)=>
+  {
+    bd.cruds.crudUsuario.leer((cal)=>{
+      res.json(cal)
+    })
+  }); */
 const fechas = require('./../Utiles/fechas');
   rutas.get("/ParqueoActual/:id" ,(req,res)=>
   {

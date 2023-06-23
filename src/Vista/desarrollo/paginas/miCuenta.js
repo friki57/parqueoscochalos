@@ -32,12 +32,12 @@ class MiCuenta extends Component
     {
       return(
         <div className="flexV">
-          <h1>Funciones de {window.datos.usuario.tipo}</h1>
+          {/* <h1>Funciones de {window.datos.usuario.tipo}</h1>
           <div className = "flex">
             <a href = {window.datos.http.get.rutaCuenta.adicionarSaldo} className = "rounded flexV  bg-yellow-600 text-white lg:p-5 md:p-3 hover:no-underline hover:bg-yellow-700 m-2"> Cargar saldo </a>
           </div>
           <div className = "flex">
-          </div>
+          </div> */}
         </div>
       )
       // <form  action="/descargar" method="post">
@@ -50,7 +50,7 @@ class MiCuenta extends Component
         <div className="flexV">
           <h1>Funciones de {window.datos.usuario.tipo}</h1>
           <div className = "flex">
-            <a href = {window.datos.http.get.rutaCuenta.adicionarSaldo} className = "rounded flexV  bg-yellow-600 text-white lg:p-5 md:p-3 sm:p-2 hover:no-underline hover:bg-yellow-700 m-2"> Cargar saldo </a>
+{/*             <a href = {window.datos.http.get.rutaCuenta.adicionarSaldo} className = "rounded flexV  bg-yellow-600 text-white lg:p-5 md:p-3 sm:p-2 hover:no-underline hover:bg-yellow-700 m-2"> Cargar saldo </a> */}
             <a href = {window.datos.http.get.rutaCuenta.reportes} className = "rounded flexV  bg-green-600 text-white lg:p-5 md:p-3 sm:p-2 hover:no-underline hover:bg-green-700 m-2"> Reportes de uso </a>
             <a href = {window.datos.http.get.rutaCuenta.asignarCargo} className = 'rounded flexV  bg-blue-600 text-white lg:p-5 md:p-3 sm:p-2 hover:no-underline hover:bg-blue-700 m-2'>Asignación de Cargos</a>
           </div>
