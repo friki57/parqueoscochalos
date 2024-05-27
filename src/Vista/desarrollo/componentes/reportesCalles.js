@@ -3,6 +3,7 @@ import Buscar from "../../../Controlador/CRUDS/buscar.js"
 import Fechas from "../../../Controlador/HTTP/Utiles/fechas0.js"
 import Clonar from "../../../Controlador/HTTP/Utiles/Clonar.js"
 import FiltroFecha from "./filtroFecha.js";
+import TotalCard from "./totalCard.js";
 import ListaFechas from "../../../Controlador/HTTP/Utiles/ListaFechas.js";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
@@ -43,10 +44,14 @@ class Boton extends Component
 {
   constructor(props){
     super(props);
-    props.datos.calles = props.datos.calles.map(a=>{
-      a.total = Buscar(props.datos.parqueos,{calle:{valor:a.key,tipo:"igual"}}).length
-      return a;
-    })
+    // props.datos.calles = props.datos.calles.map(a=>{
+    //   const usos = Buscar(props.datos.parqueos, { calle: { valor: a.key, tipo: "igual" } });
+    //   console.log("usos", a.callecompleta, usos, usos.reduce((acc, x) => acc + Math.ceil(x.tiempo / 30) * 2, 0));
+    //   a.total = usos.length;
+    //   a.costoTotal = 0;
+    //   a.costoTotal = usos.reduce((acc, x) => acc + Math.ceil(x.tiempo / 30) * 2, 0);
+    //   return a;
+    // })
     props.datos.calles = props.datos.calles.sort((a,b)=>b.total-a.total);
     // props.datos.calles = props.datos.calles.sort(function(a, b) {
     //   if (a.total > b.total) {
@@ -81,8 +86,11 @@ class Boton extends Component
     dat.calles = Buscar(dat.calles,{callecompletau:{valor:form.ci.toUpperCase(),tipo:"contieneString"}})
     var parq = [];
     dat.calles = dat.calles.map(a=>{
-      const parqueosFiltrados = Buscar(dat.parqueos, { fecha: { ini: form.ini, fin: form.fin, tipo: "fecha" } }) 
-      a.total = Buscar(parqueosFiltrados,{calle:{valor:a.key,tipo:"igual"}}).length
+      const parqueosFiltrados = Buscar(dat.parqueos, { fecha: { ini: form.ini, fin: form.fin, tipo: "fecha" } });
+      const usos = Buscar(parqueosFiltrados, { calle: { valor: a.key, tipo: "igual" } });
+      a.total = usos.length;
+      a.costoTotal = usos.reduce((acc, x) => acc + Math.ceil(x.tiempo / 30) * 2, 0);
+      a.tiempoTotal = usos.reduce((acc, x) => acc + parseInt(x.tiempo), 0);
       return a;
     })
     let calleFecha = {
@@ -104,25 +112,39 @@ class Boton extends Component
           <input onChange={this.cambiosInput} style = {estiloInput} key="ci" name = "ci" type = "text" defaultValue = {""}></input>
           <br></br>
           <FiltroFecha form = {form} buscar={this.buscar}></FiltroFecha>
-          <div>
-            <h3>Resultados:</h3>
-            Usos totales: {this.state.datosfiltrados.calles.reduce((a, b) => a + parseFloat(b.total), 0)} <br></br>
-          </div>
-          <br></br>
-          <LineChart
-            width={800}
-            height={600}
-            data={this.state.calleFecha}
-            margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
-            className="bg-white"
-          >
-            <XAxis dataKey="Fecha" />
-            <Tooltip />
-            <CartesianGrid stroke="#333" />
-            <Line type="monotone" dataKey="Uso" stroke="#4ade80" yAxisId={0} />
-          </LineChart>
-          <br></br>
         </div>
+        <div>
+          <h3 className="text-white">Resultados:</h3>
+          <div className="w-full flex flex-col gap-2">
+            <div className="flex justify-between gap-2 w-full">
+              <TotalCard titulo="Cantidad de calles:" cantidad={this.state.datosfiltrados.calles.length + ' Calles'} />
+              <TotalCard titulo="Usos totales:" cantidad={this.state.datosfiltrados.calles.reduce((a, b) => a + parseFloat(b.total), 0) + ' Usos'} />
+            </div>
+            <div className="flex justify-between gap-2 w-full">
+              <TotalCard titulo="Ganancias totales:" cantidad={this.state.datosfiltrados.calles.reduce((a, b) => a + parseFloat(b.costoTotal), 0) + ' Bs.'} />
+              <TotalCard titulo="Tiempo de uso total:" cantidad={`${this.state.datosfiltrados.calles.reduce((a, b) => a + parseFloat(b.tiempoTotal), 0)} Min. ~ ${Math.ceil(this.state.datosfiltrados.calles.reduce((a, b) => a + parseFloat(b.tiempoTotal), 0) / 60)} Hrs.`} />
+            </div>
+          </div>
+
+          {/* Cantidad de calles: {this.state.datosfiltrados.calles.length} <br></br>
+          Usos totales: {this.state.datosfiltrados.calles.reduce((a, b) => a + parseFloat(b.total), 0)} <br></br>
+          Ganancias totales: {this.state.datosfiltrados.calles.reduce((a, b) => a + parseFloat(b.costoTotal), 0)} Bs. <br></br>
+          Tiempo de uso total: {this.state.datosfiltrados.calles.reduce((a, b) => a + parseFloat(b.tiempoTotal), 0)} Min. ~ {Math.ceil(this.state.datosfiltrados.calles.reduce((a, b) => a + parseFloat(b.tiempoTotal), 0) / 60)} Hrs. <br></br> */}
+        </div>
+        <br></br>
+        <LineChart
+          width={800}
+          height={600}
+          data={this.state.calleFecha}
+          margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
+          className="bg-white"
+        >
+          <XAxis dataKey="Fecha" />
+          <Tooltip />
+          <CartesianGrid stroke="#333" />
+          <Line type="monotone" dataKey="Uso" stroke="#4ade80" yAxisId={0} />
+        </LineChart>
+        <br></br>
         <table className="table bg-white">
           <thead>
             <tr>
@@ -131,6 +153,8 @@ class Boton extends Component
               <th scope="col">Cantidad máxima de espacios</th>
               <th scope="col">Tipo</th>
               <th scope="col">Cantidad de usos</th>
+              <th scope="col">Total de tiempo</th>
+              <th scope="col">Total en Bolivianos</th>
             </tr>
           </thead>
           <tbody>
@@ -143,6 +167,8 @@ class Boton extends Component
                     <td>{a.espaciosMaximo}</td>
                     <td>{a.pago?"tarifada":"prohibida"}</td>
                     <td>{a.total}</td>
+                    <td>{a.tiempoTotal} Min.</td>
+                    <td>{a.costoTotal} Bs.</td>
                   </tr>
                 )
               })

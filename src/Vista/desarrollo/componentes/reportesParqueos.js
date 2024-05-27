@@ -3,6 +3,7 @@ import Buscar from "../../../Controlador/CRUDS/buscar.js"
 import Fechas from "../../../Controlador/HTTP/Utiles/fechas0.js"
 import Clonar from "../../../Controlador/HTTP/Utiles/Clonar.js"
 import FiltroFecha from "./filtroFecha.js";
+import TotalCard from "./totalCard.js";
 import ListaFechas from "../../../Controlador/HTTP/Utiles/ListaFechas.js";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
@@ -98,55 +99,66 @@ class reporteParqueo extends Component
           <input onChange={this.cambiosInput} style = {estiloInput} key="ci" name = "ci" type = "text" defaultValue = {""}></input>
           <br></br>
           <FiltroFecha form={form} buscar={this.buscar}></FiltroFecha>
-          <div>
-            <h3>Resultados:</h3>
-            Cantidad de parqueos totales: {this.state.datosfiltrados.parqueos.reduce((a, b) => a + 1, 0)} <br></br>
-            Parqueos marcados con Sensor: {this.state.datosfiltrados.parqueos.reduce((a, b) => (b.medio !== "QR") ? a + 1 : a, 0)} <br></br>
-            Parqueos marcados con QR: {this.state.datosfiltrados.parqueos.reduce((a, b) => (b.medio === "QR") ? a + 1 : a, 0)} <br></br>
-          </div>
-          <br></br>
-          <LineChart
-            width={800}
-            height={600}
-            data={this.state.parqueoGrafico}
-            margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
-            className="bg-white"
-          >
-            <XAxis dataKey="name" />
-            <YAxis />
-            <Tooltip />
-
-            {/* <Tooltip
-              content={(props) => (
-                <div style={{
-                  border: '#bbb 1.5px solid',
-                }}>
-                  <p style={{
-                    margin: '0 0',
-                    padding: '3px 7.5px',
-                    backgroundColor: 'white',
-                    color: '#000',
-                  }}>
-                    {props.payload[0].value}
-                  </p>
-                  <p style={{
-                    margin: '0 0',
-                    padding: '3px 7.5px',
-                    backgroundColor: 'white',
-                    color: '#007AFF',
-                  }}>
-                    Read:
-                    {' '}
-                    coom
-                  </p>
-                </div>
-              )}
-            /> */}
-            <CartesianGrid stroke="#333" />
-            <Line type="monotone" dataKey="Uso" stroke="#0B313F" yAxisId={0} />
-          </LineChart>
-          <br></br>
         </div>
+        <div className="">
+          <h3 className="text-white">Resultados:</h3>
+          <div className="w-full flex flex-col gap-2">
+            <div className="flex justify-between gap-2 w-full">
+              <TotalCard titulo="Cantidad de parqueos totales:" cantidad={this.state.datosfiltrados.parqueos.reduce((a, b) => a + 1, 0) + ' Parqueos'} />
+              <TotalCard titulo="Ganancias totales:" cantidad={this.state.datosfiltrados.parqueos.reduce((a, b) => a + Math.ceil(b.tiempo / 30) * 2, 0) + ' Bs.'} />
+            </div>
+            <div className="flex justify-between gap-2 w-full">
+              <TotalCard titulo="Parqueos marcados con Sensor:" cantidad={this.state.datosfiltrados.parqueos.reduce((a, b) => (b.medio !== "QR") ? a + 1 : a, 0) + ' Parqueos'} />
+              <TotalCard titulo="Ganancias con Sensor:" cantidad={this.state.datosfiltrados.parqueos.reduce((a, b) => (b.medio !== "QR") ? a + Math.ceil(b.tiempo / 30) * 2 : a, 0) + ' Bs.'} />
+            </div>
+            <div className="flex justify-between gap-2 w-full">
+              <TotalCard titulo="Parqueos marcados con QR:" cantidad={this.state.datosfiltrados.parqueos.reduce((a, b) => (b.medio === "QR") ? a + 1 : a, 0) + ' Parqueos'} />
+              <TotalCard titulo="Ganancias con QR:" cantidad={this.state.datosfiltrados.parqueos.reduce((a, b) => (b.medio === "QR") ? a + Math.ceil(b.tiempo / 30) * 2 : a, 0) + ' Bs.'} />
+            </div>
+          </div>
+        </div>
+        <br></br>
+        <LineChart
+          width={800}
+          height={600}
+          data={this.state.parqueoGrafico}
+          margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
+          className="bg-white"
+        >
+          <XAxis dataKey="name" />
+          <YAxis />
+          <Tooltip />
+
+          {/* <Tooltip
+            content={(props) => (
+              <div style={{
+                border: '#bbb 1.5px solid',
+              }}>
+                <p style={{
+                  margin: '0 0',
+                  padding: '3px 7.5px',
+                  backgroundColor: 'white',
+                  color: '#000',
+                }}>
+                  {props.payload[0].value}
+                </p>
+                <p style={{
+                  margin: '0 0',
+                  padding: '3px 7.5px',
+                  backgroundColor: 'white',
+                  color: '#007AFF',
+                }}>
+                  Read:
+                  {' '}
+                  coom
+                </p>
+              </div>
+            )}
+          /> */}
+          <CartesianGrid stroke="#333" />
+          <Line type="monotone" dataKey="Uso" stroke="#0B313F" yAxisId={0} />
+        </LineChart>
+        <br></br>
         <table className="table bg-white">
           <thead>
             <tr>
@@ -156,6 +168,7 @@ class reporteParqueo extends Component
               <th scope="col">Fecha</th>
               <th scope="col">Medio</th>
               <th scope="col">Tiempo</th>
+              <th scope="col">Monto</th>
             </tr>
           </thead>
           <tbody>
@@ -169,6 +182,7 @@ class reporteParqueo extends Component
                     <td>{Fechas((new Date(a.fecha)))}</td>
                     <td>{a.medio?a.medio:'Sensor'}</td>
                     <td>{a.tiempo}</td>
+                    <td>{Math.ceil(a.tiempo / 30) * 2} Bs.</td>
                   </tr>
                 )
               })

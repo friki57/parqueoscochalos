@@ -3,6 +3,7 @@ import Buscar from "../../../Controlador/CRUDS/buscar.js"
 import Fechas from "../../../Controlador/HTTP/Utiles/fechas0.js"
 import Clonar from "../../../Controlador/HTTP/Utiles/Clonar.js"
 import FiltroFecha from "./filtroFecha.js";
+import TotalCard from "./totalCard.js";
 import ListaFechas from "../../../Controlador/HTTP/Utiles/ListaFechas.js";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
@@ -101,27 +102,38 @@ class Boton extends Component
           {/* <input onChange={this.cambiosInput} style = {estiloInput} key="cajero" name = "cajero" type = "text" defaultValue = {""}></input>
           <br></br> */}
           <FiltroFecha form={form} buscar={this.buscar}></FiltroFecha>
-          <div>
-            <h3>Resultados:</h3> 
-            Monto total: {this.state.datosfiltrados.saldos.reduce((a, b) => a + parseFloat(b.monto), 0) } <br></br>
-            {/* Recargas por cajero: {this.state.datosfiltrados.saldos.reduce((a, b) => (b.cajero!=="Recarga QR")?a + 1:a, 0) } <br></br> */}
-            Recargas por QR: {this.state.datosfiltrados.saldos.reduce((a, b) => (b.cajero==="Recarga QR")?a + 1:a, 0) } <br></br>
-          </div>
-          <br></br>
-          <LineChart
-            width={800}
-            height={600}
-            data={this.state.montoFecha}
-            margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
-            className="bg-white"
-          >
-            <XAxis dataKey="Fecha" />
-            <Tooltip />
-            <CartesianGrid stroke="#333" />
-            <Line type="monotone" dataKey="Monto" stroke="#ff7300" yAxisId={0} />
-          </LineChart>
-          <br></br>
         </div>
+        <div>
+          <h3 className="text-white">Resultados:</h3>
+          <div className="w-full flex flex-col gap-2">
+            <div className="flex justify-between gap-2 w-full">
+              <TotalCard titulo="Recargas totales:" cantidad={this.state.datosfiltrados.saldos.length + ' Recargas'} />
+              <TotalCard titulo="Monto total:" cantidad={this.state.datosfiltrados.saldos.reduce((a, b) => a + parseFloat(b.monto), 0) + ' Bs.'} />
+            </div>
+            <div className="flex justify-between gap-2 w-full">
+              <TotalCard titulo="Recargas por QR:" cantidad={this.state.datosfiltrados.saldos.reduce((a, b) => (b.cajero === "Recarga QR") ? a + 1 : a, 0) + ' Recargas'} />
+              <TotalCard titulo="Ganancia total por QR:" cantidad={this.state.datosfiltrados.saldos.reduce((a, b) => (b.cajero === "Recarga QR") ? a + parseFloat(b.monto) : a, 0) + ' Bs.'} />
+            </div>
+            <div className="flex justify-between gap-2 w-full">
+              <TotalCard titulo="Recargas por Cajero:" cantidad={this.state.datosfiltrados.saldos.reduce((a, b) => (b.cajero !== "Recarga QR") ? a + 1 : a, 0) + ' Recargas'} />
+              <TotalCard titulo="Ganancia total por Cajero:" cantidad={this.state.datosfiltrados.saldos.reduce((a, b) => (b.cajero !== "Recarga QR") ? a + parseFloat(b.monto) : a, 0) + ' Bs.'} />
+            </div>
+          </div>
+        </div>
+        <br></br>
+        <LineChart
+          width={800}
+          height={600}
+          data={this.state.montoFecha}
+          margin={{ top: 5, right: 20, left: 10, bottom: 5 }}
+          className="bg-white"
+        >
+          <XAxis dataKey="Fecha" />
+          <Tooltip />
+          <CartesianGrid stroke="#333" />
+          <Line type="monotone" dataKey="Monto" stroke="#ff7300" yAxisId={0} />
+        </LineChart>
+        <br></br>
         <table className="table bg-white">
           <thead>
             <tr>
