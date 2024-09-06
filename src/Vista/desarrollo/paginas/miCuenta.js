@@ -28,16 +28,17 @@ class MiCuenta extends Component
   }
   controlCalles()
   {
+    console.log('usuario:', window.datos.usuario)
     if(window.datos.usuario.tipo == 'Cajero')
     {
       return(
         <div className="flexV">
-          {/* <h1>Funciones de {window.datos.usuario.tipo}</h1>
+          <h1>Funciones de {window.datos.usuario.tipo}</h1>
           <div className = "flex">
             <a href = {window.datos.http.get.rutaCuenta.adicionarSaldo} className = "rounded flexV  bg-yellow-600 text-white lg:p-5 md:p-3 hover:no-underline hover:bg-yellow-700 m-2"> Cargar saldo </a>
           </div>
           <div className = "flex">
-          </div> */}
+          </div>
         </div>
       )
       // <form  action="/descargar" method="post">
@@ -62,6 +63,7 @@ class MiCuenta extends Component
   }
   render()
   {
+    console.log('usuario:', window.datos.usuario)
     return (
       <div>
         <Cabecera></Cabecera>

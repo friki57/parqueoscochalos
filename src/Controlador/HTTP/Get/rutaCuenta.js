@@ -265,7 +265,7 @@ module.exports = (rutas, bd, ver, datos, http)=>
           type: 'combobox',
           contenido: [
             {valor:"Usuario", selected:true, contenido: "Usuario Condutor"},
-            // {valor:"Cajero", contenido: "Cajero"},
+            {valor:"Cajero", contenido: "Cajero"},
             {valor:"Administrador", contenido: "Administrador"}
           ],
           color: "text-white"
